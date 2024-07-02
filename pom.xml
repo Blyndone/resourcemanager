@@ -1,5 +1,6 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
     <modelVersion>4.0.0</modelVersion>
     <groupId>osproject</groupId>
     <artifactId>resourcemanager</artifactId>
@@ -20,10 +21,15 @@
             <artifactId>javafx-fxml</artifactId>
             <version>13</version>
         </dependency>
+ <dependency>
+ <groupId>org.gridkit.lab</groupId>
+ <artifactId>sigar-lib</artifactId>
+ <version>1.6.4</version>
+</dependency>
     </dependencies>
     <build>
+    
     <defaultGoal>install</defaultGoal>
-
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -49,5 +55,6 @@
                 </executions>
             </plugin>
         </plugins>
+        
     </build>
 </project>
