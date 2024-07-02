@@ -1,0 +1,7 @@
+module osproject {
+    requires javafx.controls;
+    requires javafx.fxml;
+
+    opens osproject to javafx.fxml;
+    exports osproject;
+}
