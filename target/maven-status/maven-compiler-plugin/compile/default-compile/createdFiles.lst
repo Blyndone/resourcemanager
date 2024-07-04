@@ -1,10 +1,6 @@
-osproject\secondary.fxml
-osproject\primary.fxml
 osproject\SystemInfoTest.class
 osproject\StringObserver.class
 osproject\App.class
-osproject\TESTAPP.fxml
 osproject\TESTAPP.class
-osproject\resourcemonitor.fxml
 osproject\DoubleObserver.class
 osproject\CpuLoad.class
