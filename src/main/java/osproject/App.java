@@ -34,7 +34,6 @@ public class App extends Application {
     private static CpuLoad CpuLoad = new CpuLoad();
     private static DoubleObserver cpuObserver = new DoubleObserver();
     private static CpuMonitor cpuMonitor = new CpuMonitor();
-    private static ArrayList<Double> cpuLog = new ArrayList<>();
 
     private static DoubleObserver ramObserver = new DoubleObserver();
     private static DoubleObserver diskObserver = new DoubleObserver();
@@ -140,15 +139,8 @@ public class App extends Application {
     }
 
     private static void tick() {
-        Double cpuLoadPercent = cpuMonitor.getLoadPercent();
-        cpuLog.add(cpuLoadPercent);
-        if (cpuLog.size() > 12) {
-            cpuLog.remove(0);
-        }
-
+        cpuMonitor.getLoadPercent();
         updateChart(cpuChart);
-        // cpuObserver.setValue(CpuLoad.getProcessCpuLoadDouble());
-        // CpuLoad.status();
 
     }
 
@@ -156,9 +148,7 @@ public class App extends Application {
 
         XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
         // populating the series with data
-        if (cpuLog.size() < 1) {
-            return;
-        }
+        ArrayList<Double> cpuLog = cpuMonitor.getLog();
 
         for (int i = 0; i < cpuLog.size(); i++) {
             // series.getData().add(new XYChart.Data<Number, Number>(i, i));

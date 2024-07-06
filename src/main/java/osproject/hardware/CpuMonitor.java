@@ -1,5 +1,7 @@
 package osproject.hardware;
 
+import java.util.ArrayList;
+
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
@@ -15,6 +17,8 @@ public class CpuMonitor implements HardwareMonitor {
 
     CentralProcessor processor = hal.getProcessor();
 
+    private static ArrayList<Double> cpuLog = new ArrayList<>();
+
     static double percent = 0;
     static int delay = 1000;
 
@@ -27,6 +31,7 @@ public class CpuMonitor implements HardwareMonitor {
         }).start();
 
         cpuLoadPercent.setValue(percent);
+        updateLog();
         return percent;
     }
 
@@ -43,6 +48,18 @@ public class CpuMonitor implements HardwareMonitor {
 
     public void setObserver(DoubleObserver observer) {
         cpuLoadPercent = observer;
+    }
+
+    public ArrayList<Double> getLog() {
+        return cpuLog;
+    }
+
+    public void updateLog() {
+
+        if (cpuLog.size() > 12) {
+            cpuLog.remove(0);
+        }
+        cpuLog.add(percent);
     }
 
 }
