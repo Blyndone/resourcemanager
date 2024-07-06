@@ -72,9 +72,11 @@ public class App extends Application {
         ramLabel.textProperty().bind(ramObserver.valueProperty().asString("%.2f%%"));
 
         Label diskLabel = (Label) scene.lookup("#diskPer");
+        // diskMonitor.setObserver(diskObserver);
         diskLabel.textProperty().bind(diskObserver.valueProperty().asString("%.2f%%"));
 
         Label networkLabel = (Label) scene.lookup("#networkPer");
+        networkMonitor.setObserver(networkObserver);
         networkLabel.textProperty().bind(networkObserver.valueProperty().asString("%.2f%%"));
 
         Label targetLabelUI = (Label) scene.lookup("#targetLabel");
@@ -144,19 +146,19 @@ public class App extends Application {
         launch();
     }
 
-    @FXML
-    private void buttonClick() throws IOException {
-        System.out.println("Button Clicked");
-        System.out.println(m);
-        m.setValue(CpuLoad.getProcessCpuLoad());
-        CpuLoad.status();
-    }
+    // @FXML
+    // private void buttonClick() throws IOException {
+    // System.out.println("Button Clicked");
+    // System.out.println(m);
+    // m.setValue(CpuLoad.getProcessCpuLoad());
+    // CpuLoad.status();
+    // }
 
     private static void tick() {
         cpuMonitor.getLoadPercent();
         ramMonitor.getLoadPercent();
         // diskMonitor.getLoadPercent();
-        // networkMonitor.getLoadPercent();
+        networkMonitor.getLoadPercent();
         updateChart();
 
     }
