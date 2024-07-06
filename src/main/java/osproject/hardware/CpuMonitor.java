@@ -27,7 +27,7 @@ public class CpuMonitor implements HardwareMonitor {
 
         new Thread(() -> {
             percent = processor.getSystemCpuLoad(delay) * 100;
-            System.out.println("CPU Load: " + percent + "%");
+            // System.out.println("CPU Load: " + percent + "%");
         }).start();
 
         cpuLoadPercent.setValue(percent);

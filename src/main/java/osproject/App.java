@@ -8,16 +8,22 @@ import javafx.application.Application;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import osproject.hardware.CpuMonitor;
+import osproject.hardware.DiskMonitor;
+import osproject.hardware.HardwareMonitor;
+import osproject.hardware.NetworkMonitor;
+import osproject.hardware.RamMonitor;
 
 import java.io.IOException;
 
@@ -27,13 +33,18 @@ public class App extends Application {
     private double tickInterval = .5;
     // private static XYChart.Series<Number, Number> series = new
     // XYChart.Series<Number, Number>();
-    private static LineChart<Number, Number> cpuChart = new LineChart<>(new NumberAxis(),
+    private static LineChart<Number, Number> currentChart = new LineChart<>(new NumberAxis(),
             new NumberAxis());
+    private static HardwareMonitor hardwareMonitor;
+
     private static StringObserver m = new StringObserver();
 
     private static CpuLoad CpuLoad = new CpuLoad();
     private static DoubleObserver cpuObserver = new DoubleObserver();
     private static CpuMonitor cpuMonitor = new CpuMonitor();
+    private static RamMonitor ramMonitor = new RamMonitor();
+    private static DiskMonitor diskMonitor = new DiskMonitor();
+    private static NetworkMonitor networkMonitor = new NetworkMonitor();
 
     private static DoubleObserver ramObserver = new DoubleObserver();
     private static DoubleObserver diskObserver = new DoubleObserver();
@@ -46,6 +57,7 @@ public class App extends Application {
     @SuppressWarnings("unchecked")
     @Override
     public void start(Stage stage) throws IOException {
+        hardwareMonitor = cpuMonitor;
         scene = new Scene(loadFXML("resourcemonitor"));
         stage.setScene(scene);
 
@@ -56,6 +68,7 @@ public class App extends Application {
         cpuLabel.textProperty().bind(cpuObserver.valueProperty().asString("%.2f%%"));
 
         Label ramLabel = (Label) scene.lookup("#ramPer");
+        ramMonitor.setObserver(ramObserver);
         ramLabel.textProperty().bind(ramObserver.valueProperty().asString("%.2f%%"));
 
         Label diskLabel = (Label) scene.lookup("#diskPer");
@@ -77,27 +90,28 @@ public class App extends Application {
         logLabelUI.textProperty().bind(logLabel.valueProperty());
 
         // LineChart<Number, Number> cpuChart = (LineChart<Number, Number>)
-        cpuChart = (LineChart<Number, Number>) scene.lookup("#graph");
+        currentChart = (LineChart<Number, Number>) scene.lookup("#graph");
 
-        cpuChart.setTitle("CPU Usage");
-        cpuChart.getXAxis().setAutoRanging(false);
-        cpuChart.getYAxis().setAutoRanging(false);
-        cpuChart.setAnimated(false);
-        NumberAxis xAxis = (NumberAxis) cpuChart.getXAxis();
+        currentChart.setTitle("CPU Usage");
+        currentChart.getXAxis().setAutoRanging(false);
+        currentChart.getYAxis().setAutoRanging(false);
+        currentChart.setAnimated(false);
+        NumberAxis xAxis = (NumberAxis) currentChart.getXAxis();
         xAxis.setLowerBound(0);
         xAxis.setUpperBound(12);
         xAxis.setTickUnit(1);
         xAxis.setLabel("X Axis Label");
 
-        NumberAxis yAxis = (NumberAxis) cpuChart.getYAxis();
+        NumberAxis yAxis = (NumberAxis) currentChart.getYAxis();
         yAxis.setLowerBound(0);
         yAxis.setUpperBound(100);
         yAxis.setTickUnit(10);
         yAxis.setLabel("Y Axis Label");
 
-        updateChart(cpuChart);
+        updateChart();
 
         // Starts the monitor Loop
+
         startMonitor();
 
     }
@@ -140,15 +154,18 @@ public class App extends Application {
 
     private static void tick() {
         cpuMonitor.getLoadPercent();
-        updateChart(cpuChart);
+        ramMonitor.getLoadPercent();
+        // diskMonitor.getLoadPercent();
+        // networkMonitor.getLoadPercent();
+        updateChart();
 
     }
 
-    private static void updateChart(LineChart<Number, Number> cpuChart) {
+    private static void updateChart() {
 
         XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
         // populating the series with data
-        ArrayList<Double> cpuLog = cpuMonitor.getLog();
+        ArrayList<Double> cpuLog = hardwareMonitor.getLog();
 
         for (int i = 0; i < cpuLog.size(); i++) {
             // series.getData().add(new XYChart.Data<Number, Number>(i, i));
@@ -156,7 +173,39 @@ public class App extends Application {
 
         }
 
-        cpuChart.getData().setAll(series);
+        currentChart.getData().setAll(series);
+
+    }
+
+    @FXML
+    private void setTarget(MouseEvent event) {
+
+        Node sourceNode = (Node) event.getSource();
+        String sourceId = sourceNode.getId();
+        System.out.println("Source ID: " + sourceId);
+
+        switch (sourceId) {
+            case "cpuPane":
+                targetLabel.setValue("CPU");
+                hardwareMonitor = cpuMonitor;
+                break;
+            case "ramPane":
+                targetLabel.setValue("RAM");
+                hardwareMonitor = ramMonitor;
+                break;
+            case "diskPane":
+                targetLabel.setValue("Disk");
+                hardwareMonitor = diskMonitor;
+                break;
+            case "networkPane":
+                targetLabel.setValue("Network");
+                hardwareMonitor = networkMonitor;
+                break;
+
+            default:
+
+                break;
+        }
 
     }
 
