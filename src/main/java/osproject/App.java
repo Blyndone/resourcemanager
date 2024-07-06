@@ -1,5 +1,7 @@
 package osproject;
 
+import java.util.*;
+import java.util.ArrayList;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -15,15 +17,25 @@ import javafx.scene.control.Label;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import osproject.hardware.CpuMonitor;
+
 import java.io.IOException;
 
 public class App extends Application {
 
     private static Scene scene;
+    private double tickInterval = .5;
+    // private static XYChart.Series<Number, Number> series = new
+    // XYChart.Series<Number, Number>();
+    private static LineChart<Number, Number> cpuChart = new LineChart<>(new NumberAxis(),
+            new NumberAxis());
     private static StringObserver m = new StringObserver();
+
     private static CpuLoad CpuLoad = new CpuLoad();
-    private double tickInterval = 0.5;
     private static DoubleObserver cpuObserver = new DoubleObserver();
+    private static CpuMonitor cpuMonitor = new CpuMonitor();
+    private static ArrayList<Double> cpuLog = new ArrayList<>();
+
     private static DoubleObserver ramObserver = new DoubleObserver();
     private static DoubleObserver diskObserver = new DoubleObserver();
     private static DoubleObserver networkObserver = new DoubleObserver();
@@ -41,6 +53,7 @@ public class App extends Application {
         stage.show();
         /// Label Bindings
         Label cpuLabel = (Label) scene.lookup("#cpuPer");
+        cpuMonitor.setObserver(cpuObserver);
         cpuLabel.textProperty().bind(cpuObserver.valueProperty().asString("%.2f%%"));
 
         Label ramLabel = (Label) scene.lookup("#ramPer");
@@ -64,42 +77,26 @@ public class App extends Application {
         Label logLabelUI = (Label) scene.lookup("#logLabel");
         logLabelUI.textProperty().bind(logLabel.valueProperty());
 
-        /// Chart Binding and dummy Data
-        LineChart<Number, Number> cpuChart = (LineChart<Number, Number>) scene.lookup("#graph");
+        // LineChart<Number, Number> cpuChart = (LineChart<Number, Number>)
+        cpuChart = (LineChart<Number, Number>) scene.lookup("#graph");
 
         cpuChart.setTitle("CPU Usage");
-        cpuChart.getXAxis().setAutoRanging(true);
-        cpuChart.getYAxis().setAutoRanging(true);
-
+        cpuChart.getXAxis().setAutoRanging(false);
+        cpuChart.getYAxis().setAutoRanging(false);
+        cpuChart.setAnimated(false);
         NumberAxis xAxis = (NumberAxis) cpuChart.getXAxis();
         xAxis.setLowerBound(0);
         xAxis.setUpperBound(12);
         xAxis.setTickUnit(1);
         xAxis.setLabel("X Axis Label");
 
-        NumberAxis yAxis = (NumberAxis) cpuChart.getXAxis();
+        NumberAxis yAxis = (NumberAxis) cpuChart.getYAxis();
         yAxis.setLowerBound(0);
         yAxis.setUpperBound(100);
         yAxis.setTickUnit(10);
         yAxis.setLabel("Y Axis Label");
 
-        XYChart.Series series = new XYChart.Series();
-        series.setName("Usage");
-        // populating the series with data
-        series.getData().add(new XYChart.Data(1, 23));
-        series.getData().add(new XYChart.Data(2, 14));
-        series.getData().add(new XYChart.Data(3, 15));
-        series.getData().add(new XYChart.Data(4, 24));
-        series.getData().add(new XYChart.Data(5, 47));
-        series.getData().add(new XYChart.Data(6, 65));
-        series.getData().add(new XYChart.Data(7, 75));
-        series.getData().add(new XYChart.Data(8, 45));
-        series.getData().add(new XYChart.Data(9, 43));
-        series.getData().add(new XYChart.Data(10, 17));
-        series.getData().add(new XYChart.Data(11, 29));
-        series.getData().add(new XYChart.Data(12, 25));
-
-        cpuChart.getData().add(series);
+        updateChart(cpuChart);
 
         // Starts the monitor Loop
         startMonitor();
@@ -143,8 +140,34 @@ public class App extends Application {
     }
 
     private static void tick() {
-        cpuObserver.setValue(CpuLoad.getProcessCpuLoadDouble());
-        CpuLoad.status();
+        Double cpuLoadPercent = cpuMonitor.getLoadPercent();
+        cpuLog.add(cpuLoadPercent);
+        if (cpuLog.size() > 12) {
+            cpuLog.remove(0);
+        }
+
+        updateChart(cpuChart);
+        // cpuObserver.setValue(CpuLoad.getProcessCpuLoadDouble());
+        // CpuLoad.status();
+
+    }
+
+    private static void updateChart(LineChart<Number, Number> cpuChart) {
+
+        XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
+        // populating the series with data
+        if (cpuLog.size() < 1) {
+            return;
+        }
+
+        for (int i = 0; i < cpuLog.size(); i++) {
+            // series.getData().add(new XYChart.Data<Number, Number>(i, i));
+            series.getData().add(new XYChart.Data<Number, Number>(i, cpuLog.get(i)));
+
+        }
+
+        cpuChart.getData().setAll(series);
+
     }
 
 }
