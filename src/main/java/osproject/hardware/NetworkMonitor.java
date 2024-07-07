@@ -54,7 +54,7 @@ public class NetworkMonitor implements HardwareMonitor {
 
             }
         }
-        System.out.println("Network Load: " + percent + "%");
+        // System.out.println("Network Load: " + percent + "%");
         networkLoadPercent.setValue(percent);
         updateLog();
         return percent;

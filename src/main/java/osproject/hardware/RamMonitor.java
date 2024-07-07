@@ -36,7 +36,7 @@ public class RamMonitor implements HardwareMonitor {
             availableMemory = memory.getAvailable();
             usedMemory = totalMemory - availableMemory;
             percent = (double) usedMemory / totalMemory * 100;
-            System.out.println("RAM Load: " + percent + "%");
+            // System.out.println("RAM Load: " + percent + "%");
         }).start();
         ramLoadPercent.setValue(percent);
         updateLog();

@@ -2,6 +2,7 @@ package osproject;
 
 import java.util.*;
 import java.util.ArrayList;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -15,6 +16,7 @@ import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -24,6 +26,7 @@ import osproject.hardware.DiskMonitor;
 import osproject.hardware.HardwareMonitor;
 import osproject.hardware.NetworkMonitor;
 import osproject.hardware.RamMonitor;
+import osproject.logging.LogMonitor;
 
 import java.io.IOException;
 
@@ -52,7 +55,10 @@ public class App extends Application {
     private static StringObserver targetLabel = new StringObserver();
     private static StringObserver processLabel = new StringObserver();
     private static StringObserver infoLabel = new StringObserver();
-    private static StringObserver logLabel = new StringObserver();
+
+    private static LogMonitor logMonitor = new LogMonitor();
+
+    private static StringObserver logObserver = new StringObserver();
 
     @SuppressWarnings("unchecked")
     @Override
@@ -88,10 +94,16 @@ public class App extends Application {
         Label infoLabelUI = (Label) scene.lookup("#infoLabel");
         infoLabelUI.textProperty().bind(infoLabel.valueProperty());
 
-        Label logLabelUI = (Label) scene.lookup("#logLabel");
-        logLabelUI.textProperty().bind(logLabel.valueProperty());
+        TextArea logTextArea = (TextArea) scene.lookup("#logLabel");
+        logTextArea.setEditable(false);
+        logTextArea.setWrapText(true);
+        logMonitor.setObserver(logObserver);
+        logTextArea.textProperty().bind(logObserver.valueProperty());
 
-        // LineChart<Number, Number> cpuChart = (LineChart<Number, Number>)
+        logTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
+            logTextArea.positionCaret(logTextArea.getText().length());
+        });
+
         currentChart = (LineChart<Number, Number>) scene.lookup("#graph");
 
         currentChart.setTitle("CPU Usage");
@@ -155,10 +167,17 @@ public class App extends Application {
     // }
 
     private static void tick() {
-        cpuMonitor.getLoadPercent();
-        ramMonitor.getLoadPercent();
+        double cpuPer = cpuMonitor.getLoadPercent();
+        double ramPer = ramMonitor.getLoadPercent();
         // diskMonitor.getLoadPercent();
-        networkMonitor.getLoadPercent();
+        double netPer = networkMonitor.getLoadPercent();
+
+        String cpuStr = String.format("%.2f%%", cpuPer);
+        String ramStr = String.format("%.2f%%", ramPer);
+        // String diskStr = String.format("%.2f%%", diskPer);
+        String netStr = String.format("%.2f%%", netPer);
+
+        logMonitor.log("CPU: " + cpuStr + "RAM: " + ramStr + "Disk: " + "0.00%" + "Network: " + netStr);
         updateChart();
 
     }
