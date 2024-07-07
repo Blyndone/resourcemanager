@@ -20,7 +20,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import oshi.hardware.HWDiskStore;
 import osproject.hardware.ProcessMonitor;
 import osproject.hardware.CpuMonitor;
 import osproject.hardware.DiskMonitor;
@@ -80,7 +80,9 @@ public class App extends Application {
         ramLabel.textProperty().bind(ramObserver.valueProperty().asString("%.2f%%"));
 
         Label diskLabel = (Label) scene.lookup("#diskPer");
-        // diskMonitor.setObserver(diskObserver);
+        List<HWDiskStore> disks = diskMonitor.getDisks();
+        diskMonitor = new DiskMonitor(disks.get(0));
+        diskMonitor.setObserver(diskObserver);
         diskLabel.textProperty().bind(diskObserver.valueProperty().asString("%.2f%%"));
 
         Label networkLabel = (Label) scene.lookup("#networkPer");
@@ -173,15 +175,15 @@ public class App extends Application {
     private static void tick() {
         double cpuPer = cpuMonitor.getLoadPercent();
         double ramPer = ramMonitor.getLoadPercent();
-        // diskMonitor.getLoadPercent();
+        double diskPer = diskMonitor.getLoadPercent();
         double netPer = networkMonitor.getLoadPercent();
 
         String cpuStr = String.format("%.2f%%", cpuPer);
         String ramStr = String.format("%.2f%%", ramPer);
-        // String diskStr = String.format("%.2f%%", diskPer);
+        String diskStr = String.format("%.2f%%", diskPer);
         String netStr = String.format("%.2f%%", netPer);
 
-        logMonitor.log("CPU: " + cpuStr + "RAM: " + ramStr + "Disk: " + "0.00%" + "Network: " + netStr);
+        logMonitor.log("CPU: " + cpuStr + "RAM: " + ramStr + "Disk: " + diskStr + "Network: " + netStr);
         processMonitor.getProcessList(10);
         updateChart();
 
@@ -213,18 +215,22 @@ public class App extends Application {
         switch (sourceId) {
             case "cpuPane":
                 targetLabel.setValue("CPU");
+                currentChart.setTitle("Cpu Usage");
                 hardwareMonitor = cpuMonitor;
                 break;
             case "ramPane":
                 targetLabel.setValue("RAM");
+                currentChart.setTitle("Ram Usage");
                 hardwareMonitor = ramMonitor;
                 break;
             case "diskPane":
                 targetLabel.setValue("Disk");
+                currentChart.setTitle("Disk Usage");
                 hardwareMonitor = diskMonitor;
                 break;
             case "networkPane":
                 targetLabel.setValue("Network");
+                currentChart.setTitle("Network Usage");
                 hardwareMonitor = networkMonitor;
                 break;
 
