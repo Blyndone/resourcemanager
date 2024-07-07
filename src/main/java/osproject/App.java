@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import osproject.hardware.ProcessMonitor;
 import osproject.hardware.CpuMonitor;
 import osproject.hardware.DiskMonitor;
 import osproject.hardware.HardwareMonitor;
@@ -48,6 +49,7 @@ public class App extends Application {
     private static RamMonitor ramMonitor = new RamMonitor();
     private static DiskMonitor diskMonitor = new DiskMonitor();
     private static NetworkMonitor networkMonitor = new NetworkMonitor();
+    private static ProcessMonitor processMonitor = new ProcessMonitor();
 
     private static DoubleObserver ramObserver = new DoubleObserver();
     private static DoubleObserver diskObserver = new DoubleObserver();
@@ -89,6 +91,7 @@ public class App extends Application {
         targetLabelUI.textProperty().bind(targetLabel.valueProperty());
 
         Label processLabelUI = (Label) scene.lookup("#processLabel");
+        processMonitor.setObserver(processLabel);
         processLabelUI.textProperty().bind(processLabel.valueProperty());
 
         Label infoLabelUI = (Label) scene.lookup("#infoLabel");
@@ -125,7 +128,8 @@ public class App extends Application {
         updateChart();
 
         // Starts the monitor Loop
-
+        targetLabel.setValue("CPU");
+        hardwareMonitor = cpuMonitor;
         startMonitor();
 
     }
@@ -178,6 +182,7 @@ public class App extends Application {
         String netStr = String.format("%.2f%%", netPer);
 
         logMonitor.log("CPU: " + cpuStr + "RAM: " + ramStr + "Disk: " + "0.00%" + "Network: " + netStr);
+        processMonitor.getProcessList(10);
         updateChart();
 
     }

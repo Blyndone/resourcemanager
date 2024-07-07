@@ -1,11 +1,11 @@
-package osproject;
+// package osproject;
 
-import osproject.hardware.CpuMonitor;
+// import osproject.hardware.ProcessMonitor;
 
-public class Test {
-    public static void main(String[] args) {
+// public class Test {
+// public static void main(String[] args) {
 
-        CpuMonitor cpuMonitor = new CpuMonitor();
-        cpuMonitor.getLoadPercent();
-    }
-}
+// ProcessMonitor cpuMonitor = new ProcessMonitor();
+// cpuMonitor.getLoadPercent();
+// }
+// }
