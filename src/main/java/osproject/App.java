@@ -1,7 +1,6 @@
 package osproject;
 
 import java.util.*;
-import java.util.ArrayList;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -18,9 +17,12 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import oshi.hardware.HWDiskStore;
+import oshi.software.os.OSProcess;
 import osproject.hardware.ProcessMonitor;
 import osproject.hardware.CpuMonitor;
 import osproject.hardware.DiskMonitor;
@@ -41,9 +43,6 @@ public class App extends Application {
             new NumberAxis());
     private static HardwareMonitor hardwareMonitor;
 
-    private static StringObserver m = new StringObserver();
-
-    private static CpuLoad CpuLoad = new CpuLoad();
     private static DoubleObserver cpuObserver = new DoubleObserver();
     private static CpuMonitor cpuMonitor = new CpuMonitor();
     private static RamMonitor ramMonitor = new RamMonitor();
@@ -56,6 +55,7 @@ public class App extends Application {
     private static DoubleObserver networkObserver = new DoubleObserver();
     private static StringObserver targetLabel = new StringObserver();
     private static StringObserver processLabel = new StringObserver();
+    private static ArrayList<StringObserver> processObservers = new ArrayList<>();
     private static StringObserver infoLabel = new StringObserver();
 
     private static LogMonitor logMonitor = new LogMonitor();
@@ -92,14 +92,32 @@ public class App extends Application {
         Label targetLabelUI = (Label) scene.lookup("#targetLabel");
         targetLabelUI.textProperty().bind(targetLabel.valueProperty());
 
-        Label processLabelUI = (Label) scene.lookup("#processLabel");
-        processMonitor.setObserver(processLabel);
-        processLabelUI.textProperty().bind(processLabel.valueProperty());
+        VBox processPane = (VBox) scene.lookup("#processPane");
+
+        processPane.setSpacing(5);
+
+        ArrayList<OSProcess> processList = processMonitor.getProcess();
+        processMonitor.setScene(scene);
+
+        int i = 0;
+        for (OSProcess process : processList) {
+            StringObserver observer = new StringObserver();
+            processObservers.add(observer);
+            processMonitor.addObserver(observer);
+            Label label = new Label(processMonitor.formatProcess(process));
+            label.setId("process_" + i);
+            label.textProperty().bind(observer.valueProperty());
+            label.onMouseClickedProperty().set(event -> processEntityClick(event));
+
+            processPane.getChildren().add(label);
+            i++;
+        }
 
         Label infoLabelUI = (Label) scene.lookup("#infoLabel");
         infoLabelUI.textProperty().bind(infoLabel.valueProperty());
 
-        TextArea logTextArea = (TextArea) scene.lookup("#logLabel");
+        TextArea logTextArea = (TextArea) scene.lookup(
+                "#logLabel");
         logTextArea.setEditable(false);
         logTextArea.setWrapText(true);
         logMonitor.setObserver(logObserver);
@@ -115,13 +133,15 @@ public class App extends Application {
         currentChart.getXAxis().setAutoRanging(false);
         currentChart.getYAxis().setAutoRanging(false);
         currentChart.setAnimated(false);
-        NumberAxis xAxis = (NumberAxis) currentChart.getXAxis();
+        NumberAxis xAxis = (NumberAxis) currentChart
+                .getXAxis();
         xAxis.setLowerBound(0);
         xAxis.setUpperBound(12);
         xAxis.setTickUnit(1);
         xAxis.setLabel("X Axis Label");
 
-        NumberAxis yAxis = (NumberAxis) currentChart.getYAxis();
+        NumberAxis yAxis = (NumberAxis) currentChart
+                .getYAxis();
         yAxis.setLowerBound(0);
         yAxis.setUpperBound(100);
         yAxis.setTickUnit(10);
@@ -132,6 +152,7 @@ public class App extends Application {
         // Starts the monitor Loop
         targetLabel.setValue("CPU");
         hardwareMonitor = cpuMonitor;
+
         startMonitor();
 
     }
@@ -164,14 +185,6 @@ public class App extends Application {
         launch();
     }
 
-    // @FXML
-    // private void buttonClick() throws IOException {
-    // System.out.println("Button Clicked");
-    // System.out.println(m);
-    // m.setValue(CpuLoad.getProcessCpuLoad());
-    // CpuLoad.status();
-    // }
-
     private static void tick() {
         double cpuPer = cpuMonitor.getLoadPercent();
         double ramPer = ramMonitor.getLoadPercent();
@@ -184,7 +197,8 @@ public class App extends Application {
         String netStr = String.format("%.2f%%", netPer);
 
         logMonitor.log("CPU: " + cpuStr + "RAM: " + ramStr + "Disk: " + diskStr + "Network: " + netStr);
-        processMonitor.getProcessList(10);
+        processMonitor.updateProcesses();
+
         updateChart();
 
     }
@@ -192,11 +206,11 @@ public class App extends Application {
     private static void updateChart() {
 
         XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
-        // populating the series with data
+
         ArrayList<Double> cpuLog = hardwareMonitor.getLog();
 
         for (int i = 0; i < cpuLog.size(); i++) {
-            // series.getData().add(new XYChart.Data<Number, Number>(i, i));
+
             series.getData().add(new XYChart.Data<Number, Number>(i, cpuLog.get(i)));
 
         }
@@ -238,6 +252,19 @@ public class App extends Application {
 
                 break;
         }
+
+    }
+
+    @FXML
+    private void processEntityClick(MouseEvent event) {
+        Node sourceNode = (Node) event.getSource();
+        String sourceId = sourceNode.getId();
+        System.out.println("Source ID: " + sourceId);
+
+        String[] parts = sourceId.split("_");
+        int index = Integer.parseInt(parts[1]);
+        OSProcess process = processMonitor.getProcess(index);
+        infoLabel.setValue(processMonitor.formatProcess(process));
 
     }
 

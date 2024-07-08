@@ -90,6 +90,7 @@
       </menus>
     </MenuBar>
       <TextFlow prefHeight="200.0" prefWidth="200.0" />
+      <Pane prefHeight="200.0" prefWidth="200.0" />
     <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="630.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
       <children>
             <SplitPane dividerPositions="0.2617554858934169" prefHeight="428.0" prefWidth="640.0">
@@ -180,8 +181,7 @@
                               <Font size="26.0" />
                            </font>
                         </Label>
-                        <Label fx:id="processLabel" layoutX="14.0" layoutY="78.0" prefHeight="342.0" prefWidth="180.0" text="Process List" />
-                        <LineChart fx:id="graph" layoutX="151.0" layoutY="115.0" prefHeight="304.0" prefWidth="309.0">
+                        <LineChart fx:id="graph" layoutX="154.0" layoutY="78.0" prefHeight="304.0" prefWidth="309.0">
                           <xAxis>
                             <NumberAxis side="BOTTOM" />
                           </xAxis>
@@ -189,6 +189,7 @@
                             <NumberAxis side="LEFT" />
                           </yAxis>
                         </LineChart>
+                        <VBox fx:id="processPane" layoutY="65.0" prefHeight="350.0" prefWidth="165.0" />
                      </children>
                   </AnchorPane>
               </items>

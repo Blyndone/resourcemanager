@@ -3,12 +3,9 @@ package osproject.hardware;
 import oshi.SystemInfo;
 import oshi.hardware.HWDiskStore;
 import oshi.hardware.HardwareAbstractionLayer;
-import oshi.software.os.OSFileStore;
-import oshi.software.os.OperatingSystem;
 import osproject.DoubleObserver;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class DiskMonitor implements HardwareMonitor {
@@ -82,9 +79,9 @@ public class DiskMonitor implements HardwareMonitor {
             long readBytesChange = finalReadBytes - initialReadBytes;
             long writeBytesChange = finalWriteBytes - initialWriteBytes;
 
-            System.out.println("Disk: " + this.disk.getName());
-            System.out.println("Read Bytes Change: " + readBytesChange);
-            System.out.println("Write Bytes Change: " + writeBytesChange);
+            // System.out.println("Disk: " + this.disk.getName());
+            // System.out.println("Read Bytes Change: " + readBytesChange);
+            // System.out.println("Write Bytes Change: " + writeBytesChange);
 
             double mbPerSecond = (readBytesChange + writeBytesChange) / 1048576.0; // Convert bytes change to MB
             percent = (mbPerSecond / 100.0) * 100; // Calculate as a percentage of 100 MB/s

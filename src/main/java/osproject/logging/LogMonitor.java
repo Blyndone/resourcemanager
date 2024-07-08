@@ -13,7 +13,6 @@ public class LogMonitor {
     private static final String FILE_PATH = "log.txt";
     private static final DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
     StringObserver stringObserver;
-    private static String string;
 
     public LogMonitor() {
         try {

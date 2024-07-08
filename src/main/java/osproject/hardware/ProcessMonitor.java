@@ -6,6 +6,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import oshi.SystemInfo;
 import oshi.hardware.CentralProcessor;
 import oshi.hardware.HardwareAbstractionLayer;
@@ -15,6 +17,7 @@ import osproject.DoubleObserver;
 import osproject.StringObserver;
 
 public class ProcessMonitor {
+    Scene scene;
 
     StringObserver processList;
 
@@ -22,6 +25,12 @@ public class ProcessMonitor {
     OperatingSystem os = si.getOperatingSystem();
 
     private static ArrayList<String> processLog = new ArrayList<>();
+    private static ArrayList<OSProcess> currentProcesses = new ArrayList<>();
+    private static ArrayList<StringObserver> observers = new ArrayList<>(10);
+
+    public ProcessMonitor() {
+        getProcessList(10);
+    }
 
     public ArrayList<String> getProcessList(int size) {
         List<OSProcess> list = os.getProcesses();
@@ -30,26 +39,23 @@ public class ProcessMonitor {
                 .sorted(Comparator.comparingLong(OSProcess::getResidentSetSize).reversed())
                 .limit(size)
                 .collect(Collectors.toList());
-        // Clear previous entries in processLog
-        processLog.clear();
 
-        // Step 3: Format and store the process information
+        processLog.clear();
+        currentProcesses.clear();
+
         for (OSProcess osProcess : largestProcesses) {
+            currentProcesses.add(osProcess);
             String processInfo = osProcess.getProcessID() + " " + osProcess.getName() + " "
                     + formatSize(osProcess.getResidentSetSize());
 
             processLog.add(processInfo);
+
         }
 
-        processList.setValue(String.join("\n", processLog));
+        // processList.setValue(String.join("\n", processLog));
 
         return processLog;
     }
-
-    // public static void main(String[] args) {
-    // ProcessMonitor pm = new ProcessMonitor();
-    // pm.getProcessList(10);
-    // }
 
     private String formatSize(long size) {
         if (size <= 0)
@@ -58,18 +64,6 @@ public class ProcessMonitor {
         int digitGroups = (int) (Math.log10(size) / Math.log10(1024));
         return new DecimalFormat("#,##0.#").format(size / Math.pow(1024, digitGroups)) + " " + units[digitGroups];
     }
-
-    // public Double getLoadPercent() {
-
-    // new Thread(() -> {
-    // percent = processor.getSystemCpuLoad(delay) * 100;
-    // // System.out.println("CPU Load: " + percent + "%");
-    // }).start();
-
-    // cpuLoadPercent.setValue(percent);
-    // updateLog();
-    // return percent;
-    // }
 
     public String getHardwareName() {
 
@@ -85,16 +79,41 @@ public class ProcessMonitor {
         processList = observer;
     }
 
-    // public ArrayList<Double> getLog() {
-    // return cpuLog;
-    // }
+    public OSProcess getProcess(int index) {
+        return currentProcesses.get(index);
+    }
 
-    // public void updateLog() {
+    public ArrayList<OSProcess> getProcess() {
+        // getProcessList(10);
 
-    // if (cpuLog.size() > 12) {
-    // cpuLog.remove(0);
-    // }
-    // cpuLog.add(percent);
-    // }
+        return currentProcesses;
+    }
 
+    public String formatProcess(OSProcess process) {
+        return process.getProcessID() + " " + process.getName() + " "
+                + formatSize(process.getResidentSetSize());
+    }
+
+    public void setObservers(ArrayList<StringObserver> observers) {
+        this.observers = observers;
+
+    }
+
+    public void updateProcesses() {
+        ArrayList<String> processLog = getProcessList(10);
+        for (int i = 0; i < observers.size(); i++) {
+            observers.get(i).setValue(processLog.get(i));
+            Label targetLabelUI = (Label) scene.lookup("process_" + i);
+            // targetLabelUI.textProperty().bind(observers.get(i).valueProperty());
+        }
+
+    }
+
+    public void addObserver(StringObserver observer) {
+        observers.add(observer);
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
+    }
 }
