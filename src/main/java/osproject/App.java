@@ -80,7 +80,7 @@ public class App extends Application {
         ramLabel.textProperty().bind(ramObserver.valueProperty().asString("%.2f%%"));
 
         Label diskLabel = (Label) scene.lookup("#diskPer");
-        // diskMonitor.setObserver(diskObserver);
+        diskMonitor.setObserver(diskObserver);
         diskLabel.textProperty().bind(diskObserver.valueProperty().asString("%.2f%%"));
 
         Label networkLabel = (Label) scene.lookup("#networkPer");
@@ -173,15 +173,15 @@ public class App extends Application {
     private static void tick() {
         double cpuPer = cpuMonitor.getLoadPercent();
         double ramPer = ramMonitor.getLoadPercent();
-        // diskMonitor.getLoadPercent();
+        double diskPer = diskMonitor.getLoadPercent();
         double netPer = networkMonitor.getLoadPercent();
 
         String cpuStr = String.format("%.2f%%", cpuPer);
         String ramStr = String.format("%.2f%%", ramPer);
-        // String diskStr = String.format("%.2f%%", diskPer);
+        String diskStr = String.format("%.2f%%", diskPer);
         String netStr = String.format("%.2f%%", netPer);
 
-        logMonitor.log("CPU: " + cpuStr + "RAM: " + ramStr + "Disk: " + "0.00%" + "Network: " + netStr);
+        logMonitor.log("CPU: " + cpuStr + "RAM: " + ramStr + "Disk: " + diskStr + "Network: " + netStr);
         processMonitor.getProcessList(10);
         updateChart();
 
