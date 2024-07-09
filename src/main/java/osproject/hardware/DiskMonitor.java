@@ -43,10 +43,12 @@ public class DiskMonitor implements HardwareMonitor {
         return diskLoadPercent;
     }
 
+    @Override
     public void setObserver(DoubleObserver observer) {
         diskLoadPercent = observer;
     }
 
+    @Override
     public ArrayList<Double> getLog() {
         return diskLog;
     }
