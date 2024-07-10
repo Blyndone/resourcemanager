@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.Map;
+import java.util.HashMap;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -89,9 +91,22 @@ public class ProcessMonitor {
         return currentProcesses;
     }
 
-    public String formatProcess(OSProcess process) {
-        return process.getProcessID() + " " + process.getName() + " "
-                + formatSize(process.getResidentSetSize());
+    public Map<String, Object> getDetailProcessInfo(OSProcess process) {
+        Map<String, Object> processDetails = new HashMap<String, Object>();
+        processDetails.put("Process ID", process.getProcessID());
+        processDetails.put("Name", process.getName());
+        processDetails.put("Memory", formatSize(process.getResidentSetSize()));
+        processDetails.put("Priority", process.getPriority());
+        processDetails.put("Uptime", process.getUpTime());
+        processDetails.put("CPU Load", process.getProcessCpuLoadCumulative());
+        processDetails.put("Thread Count", process.getThreadCount());
+        processDetails.put("State", process.getState().toString());
+
+        return processDetails;
+    }
+
+    public String getBasicProcessInfo(OSProcess process) {
+        return process.getProcessID() + " " + process.getName() + " " + formatSize(process.getResidentSetSize());
     }
 
     public void setObservers(ArrayList<StringObserver> observers) {

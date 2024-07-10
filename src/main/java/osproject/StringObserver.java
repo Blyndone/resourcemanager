@@ -8,23 +8,23 @@ public class StringObserver {
     private final SimpleStringProperty str = new SimpleStringProperty("value");
 
     public StringObserver() {
-        str.set("0");
-        
+        str.set("");
+
     }
 
     // public String getStr(){
-    //     return str.get();
+    // return str.get();
     // }
 
-    public void setValue(String value){
+    public void setValue(String value) {
         this.str.set(value);
     }
 
     public StringProperty valueProperty() {
         return str;
     }
-    
-    public String get(){
+
+    public String get() {
         return str.getValue();
     }
 }

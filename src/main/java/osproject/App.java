@@ -104,7 +104,7 @@ public class App extends Application {
             StringObserver observer = new StringObserver();
             processObservers.add(observer);
             processMonitor.addObserver(observer);
-            Label label = new Label(processMonitor.formatProcess(process));
+            Label label = new Label(processMonitor.getBasicProcessInfo(process));
             label.setId("process_" + i);
             label.textProperty().bind(observer.valueProperty());
             label.onMouseClickedProperty().set(event -> processEntityClick(event));
@@ -264,8 +264,23 @@ public class App extends Application {
         String[] parts = sourceId.split("_");
         int index = Integer.parseInt(parts[1]);
         OSProcess process = processMonitor.getProcess(index);
-        infoLabel.setValue(processMonitor.formatProcess(process));
 
+        Map<String, Object> processDetails = processMonitor.getDetailProcessInfo(process);
+
+        int processID = (int) processDetails.get("Process ID");
+        String name = (String) processDetails.get("Name");
+        String memory = (String) processDetails.get("Memory");
+        int priority = (int) processDetails.get("Priority");
+        long uptime = (long) processDetails.get("Uptime");
+        double cpuLoad = (double) processDetails.get("CPU Load");
+        int threadCount = (int) processDetails.get("Thread Count");
+        String state = (String) processDetails.get("State");
+
+        String formattedDetails = String.format(
+                "Process ID:\t%d\t|\tName:\t%s\t|\tMemory:\t%s\nPriority:\t%d\t|\tUptime:\t%d\t|\tCPU Load:\t%.2f\nThread Count:\t%d\t|\tState:\t%s",
+                processID, name, memory, priority, uptime, cpuLoad, threadCount, state);
+
+        infoLabel.setValue(formattedDetails);
     }
 
 }
