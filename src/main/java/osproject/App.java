@@ -17,7 +17,6 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -49,9 +48,11 @@ public class App extends Application {
     private static DiskMonitor diskMonitor = new DiskMonitor();
     private static NetworkMonitor networkMonitor = new NetworkMonitor();
     private static ProcessMonitor processMonitor = new ProcessMonitor();
-
     private static DoubleObserver ramObserver = new DoubleObserver();
+
     private static DoubleObserver diskObserver = new DoubleObserver();
+    private static ArrayList<DoubleObserver> diskObservers = new ArrayList<>();
+
     private static DoubleObserver networkObserver = new DoubleObserver();
     private static StringObserver targetLabel = new StringObserver();
     private static StringObserver processLabel = new StringObserver();
@@ -94,6 +95,26 @@ public class App extends Application {
 
         Label diskLabel = (Label) scene.lookup("#diskPer");
         List<HWDiskStore> disks = diskMonitor.getDisks();
+
+        /// This will be for multiple disks
+        diskMonitor.setScene(scene);
+        int i = 0;
+        for (HWDiskStore disk : disks) {
+            DoubleObserver observer = new DoubleObserver();
+            diskObservers.add(observer);
+            diskMonitor.addObserver(observer);
+            // Label label = new Label(processMonitor.getBasicProcessInfo(process));
+            // label.setId("process_" + i);
+            // label.textProperty().bind(observer.valueProperty());
+            // label.onMouseClickedProperty().set(event -> processEntityClick(event));
+
+            // processPane.getChildren().add(label);
+            System.out.println("Disk: " + disk.getName());
+            i++;
+        }
+        // End
+
+        /// Single Hard Coded Disk
         diskMonitor = new DiskMonitor(disks.get(0));
         diskMonitor.setObserver(diskObserver);
         diskLabel.textProperty().bind(diskObserver.valueProperty().asString("%.2f%%"));
@@ -112,7 +133,7 @@ public class App extends Application {
         ArrayList<OSProcess> processList = processMonitor.getProcess();
         processMonitor.setScene(scene);
 
-        int i = 0;
+        i = 0;
         for (OSProcess process : processList) {
             StringObserver observer = new StringObserver();
             processObservers.add(observer);

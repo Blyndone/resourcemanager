@@ -4,11 +4,14 @@ import oshi.SystemInfo;
 import oshi.hardware.HWDiskStore;
 import oshi.hardware.HardwareAbstractionLayer;
 import osproject.DoubleObserver;
-
 import java.util.ArrayList;
 import java.util.List;
 
+import javafx.scene.Scene;
+
 public class DiskMonitor implements HardwareMonitor {
+
+    Scene scene;
 
     DoubleObserver diskLoadPercent;
     SystemInfo systemInfo = new SystemInfo();
@@ -16,10 +19,12 @@ public class DiskMonitor implements HardwareMonitor {
     HWDiskStore disk;
 
     private static ArrayList<Double> diskLog = new ArrayList<>();
+    private static List<HWDiskStore> disks = new ArrayList<>();
+    private static ArrayList<DoubleObserver> observers = new ArrayList<>(10);
     static double percent = 0;
 
     public DiskMonitor() {
-
+        disks = getDisks();
     }
 
     public DiskMonitor(HWDiskStore disk) {
@@ -79,10 +84,6 @@ public class DiskMonitor implements HardwareMonitor {
             long readBytesChange = finalReadBytes - initialReadBytes;
             long writeBytesChange = finalWriteBytes - initialWriteBytes;
 
-            // System.out.println("Disk: " + this.disk.getName());
-            // System.out.println("Read Bytes Change: " + readBytesChange);
-            // System.out.println("Write Bytes Change: " + writeBytesChange);
-
             double mbPerSecond = (readBytesChange + writeBytesChange) / 1048576.0; // Convert bytes change to MB
             percent = (mbPerSecond / 100.0) * 100; // Calculate as a percentage of 100 MB/s
 
@@ -112,6 +113,10 @@ public class DiskMonitor implements HardwareMonitor {
         diskLoadPercent = observer;
     }
 
+    public void addObserver(DoubleObserver observer) {
+        observers.add(observer);
+    }
+
     public DoubleObserver getObserver() {
         return diskLoadPercent;
     }
@@ -122,5 +127,9 @@ public class DiskMonitor implements HardwareMonitor {
             diskLog.remove(0);
         }
         diskLog.add(percent);
+    }
+
+    public void setScene(Scene scene) {
+        this.scene = scene;
     }
 }

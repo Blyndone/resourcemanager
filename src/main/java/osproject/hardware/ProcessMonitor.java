@@ -11,11 +11,8 @@ import java.util.HashMap;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import oshi.SystemInfo;
-import oshi.hardware.CentralProcessor;
-import oshi.hardware.HardwareAbstractionLayer;
 import oshi.software.os.OSProcess;
 import oshi.software.os.OperatingSystem;
-import osproject.DoubleObserver;
 import osproject.StringObserver;
 
 public class ProcessMonitor {
@@ -53,8 +50,6 @@ public class ProcessMonitor {
             processLog.add(processInfo);
 
         }
-
-        // processList.setValue(String.join("\n", processLog));
 
         return processLog;
     }
