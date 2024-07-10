@@ -15,8 +15,8 @@ public class DiskMonitor implements HardwareMonitor {
     HardwareAbstractionLayer hardware = systemInfo.getHardware();
     HWDiskStore disk;
 
-    static double percent = 0;
     private static ArrayList<Double> diskLog = new ArrayList<>();
+    static double percent = 0;
 
     public DiskMonitor() {
 
