@@ -71,6 +71,19 @@ public class App extends Application {
 
         stage.show();
         /// Label Bindings
+        initializeLabels();
+
+        initializeChart();
+
+        // Starts the monitor Loop
+        targetLabel.setValue("CPU");
+        hardwareMonitor = cpuMonitor;
+
+        startMonitor();
+
+    }
+
+    private void initializeLabels() {
         Label cpuLabel = (Label) scene.lookup("#cpuPer");
         cpuMonitor.setObserver(cpuObserver);
         cpuLabel.textProperty().bind(cpuObserver.valueProperty().asString("%.2f%%"));
@@ -126,7 +139,9 @@ public class App extends Application {
         logTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             logTextArea.positionCaret(logTextArea.getText().length());
         });
+    }
 
+    private void initializeChart() {
         currentChart = (LineChart<Number, Number>) scene.lookup("#graph");
 
         currentChart.setTitle("CPU Usage");
@@ -148,13 +163,6 @@ public class App extends Application {
         yAxis.setLabel("Y Axis Label");
 
         updateChart();
-
-        // Starts the monitor Loop
-        targetLabel.setValue("CPU");
-        hardwareMonitor = cpuMonitor;
-
-        startMonitor();
-
     }
 
     private void startMonitor() {
