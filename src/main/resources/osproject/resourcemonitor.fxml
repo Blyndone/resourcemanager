@@ -48,7 +48,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox prefHeight="750.0" prefWidth="640.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="osproject.App">
+<VBox prefHeight="900.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="osproject.App">
   <children>
     <MenuBar VBox.vgrow="NEVER">
       <menus>
@@ -91,17 +91,17 @@
     </MenuBar>
       <TextFlow prefHeight="200.0" prefWidth="200.0" />
       <Pane prefHeight="200.0" prefWidth="200.0" />
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="630.0" prefWidth="640.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="650.0" prefWidth="642.0" VBox.vgrow="ALWAYS">
       <children>
-            <SplitPane dividerPositions="0.2617554858934169" prefHeight="428.0" prefWidth="640.0">
-              <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+            <SplitPane layoutY="-141.0" orientation="VERTICAL" prefHeight="873.0" prefWidth="800.0">
+               <items>
+                  <VBox prefHeight="570.0" prefWidth="640.0">
                      <children>
-                        <SplitPane layoutX="4.0" orientation="VERTICAL" prefHeight="456.0" prefWidth="167.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <SplitPane dividerPositions="0.2617554858934169" prefHeight="870.0" prefWidth="798.0">
                           <items>
-                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="454.0" prefWidth="198.0">
+                              <VBox prefHeight="479.0" prefWidth="164.0">
                                  <children>
-                                    <Pane fx:id="cpuPane" layoutX="-1.0" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
+                                    <Pane fx:id="cpuPane" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -118,7 +118,7 @@
                                           </Label>
                                        </children>
                                     </Pane>
-                                    <Pane fx:id="ramPane" layoutX="-1.0" layoutY="106.0" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
+                                    <Pane fx:id="ramPane" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -135,7 +135,7 @@
                                           </Label>
                                        </children>
                                     </Pane>
-                                    <Pane fx:id="diskPane" layoutX="-1.0" layoutY="212.0" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
+                                    <Pane fx:id="diskPane" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -152,7 +152,7 @@
                                           </Label>
                                        </children>
                                     </Pane>
-                                    <Pane fx:id="networkPane" layoutX="-1.0" layoutY="318.0" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
+                                    <Pane fx:id="networkPane" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
                                        <opaqueInsets>
                                           <Insets />
                                        </opaqueInsets>
@@ -170,55 +170,70 @@
                                        </children>
                                     </Pane>
                                  </children>
+                              </VBox>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="724.0" prefWidth="585.0">
+                                 <children>
+                                    <SplitPane dividerPositions="0.616800920598389" orientation="VERTICAL" prefHeight="871.0" prefWidth="585.0">
+                                       <items>
+                                          <AnchorPane>
+                                             <children>
+                                                <VBox fx:id="processPane" layoutX="6.0" layoutY="74.0" prefHeight="447.0" prefWidth="212.0" />
+                                                <Label fx:id="targetLabel" layoutX="14.0" layoutY="14.0" prefHeight="51.0" prefWidth="260.0" text="Current Target" textAlignment="CENTER">
+                                                   <font>
+                                                      <Font size="26.0" />
+                                                   </font>
+                                                </Label>
+                                                <LineChart fx:id="graph" layoutX="210.0" layoutY="101.0" prefHeight="350.0" prefWidth="359.0">
+                                                  <xAxis>
+                                                    <NumberAxis side="BOTTOM" />
+                                                  </xAxis>
+                                                  <yAxis>
+                                                    <NumberAxis side="LEFT" />
+                                                  </yAxis>
+                                                </LineChart>
+                                             </children>
+                                          </AnchorPane>
+                                          <VBox prefWidth="640.0">
+                                             <children>
+                                                <SplitPane dividerPositions="0.4695121951219512" orientation="VERTICAL" prefHeight="330.0" prefWidth="583.0">
+                                                   <items>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="640.0">
+                                                         <children>
+                                                            <Label layoutX="14.0" prefHeight="51.0" prefWidth="260.0" text="Detailed Info" textAlignment="CENTER">
+                                                               <font>
+                                                                  <Font size="26.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <Label fx:id="infoLabel" layoutX="15.0" layoutY="41.0" prefHeight="96.0" prefWidth="565.0" text="Detailed Info Label">
+                                                               <font>
+                                                                  <Font size="15.0" />
+                                                               </font>
+                                                            </Label>
+                                                         </children>
+                                                      </AnchorPane>
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="194.0" prefWidth="581.0">
+                                                         <children>
+                                                            <Label alignment="TOP_LEFT" layoutX="4.0" prefHeight="51.0" prefWidth="260.0" text="Log">
+                                                               <font>
+                                                                  <Font size="26.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <TextArea fx:id="logLabel" layoutX="4.0" layoutY="51.0" prefHeight="116.0" prefWidth="571.0" />
+                                                         </children>
+                                                      </AnchorPane>
+                                                   </items>
+                                                </SplitPane>
+                                             </children>
+                                          </VBox>
+                                       </items>
+                                    </SplitPane>
+                                 </children>
                               </AnchorPane>
                           </items>
                         </SplitPane>
-                     </children></AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="517.0" prefWidth="468.0">
-                     <children>
-                        <Label fx:id="targetLabel" layoutX="24.0" layoutY="14.0" prefHeight="51.0" prefWidth="260.0" text="Current Target" textAlignment="CENTER">
-                           <font>
-                              <Font size="26.0" />
-                           </font>
-                        </Label>
-                        <LineChart fx:id="graph" layoutX="154.0" layoutY="78.0" prefHeight="304.0" prefWidth="309.0">
-                          <xAxis>
-                            <NumberAxis side="BOTTOM" />
-                          </xAxis>
-                          <yAxis>
-                            <NumberAxis side="LEFT" />
-                          </yAxis>
-                        </LineChart>
-                        <VBox fx:id="processPane" layoutY="65.0" prefHeight="350.0" prefWidth="165.0" />
                      </children>
-                  </AnchorPane>
-              </items>
-            </SplitPane>
-            <SplitPane dividerPositions="0.5" layoutY="428.0" orientation="VERTICAL" prefHeight="297.0" prefWidth="633.0">
-              <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="174.0" prefWidth="631.0">
-                     <children>
-                        <Label layoutX="14.0" prefHeight="51.0" prefWidth="260.0" text="Detailed Info" textAlignment="CENTER">
-                           <font>
-                              <Font size="26.0" />
-                           </font>
-                        </Label>
-                        <Label fx:id="infoLabel" layoutX="15.0" layoutY="41.0" prefHeight="96.0" prefWidth="608.0" text="Detailed Info Label">
-                           <font>
-                              <Font size="15.0" />
-                           </font>
-                        </Label>
-                     </children></AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-                     <children>
-                        <Label alignment="TOP_LEFT" layoutX="4.0" prefHeight="51.0" prefWidth="260.0" text="Log">
-                           <font>
-                              <Font size="26.0" />
-                           </font>
-                        </Label>
-                        <TextArea fx:id="logLabel" layoutX="4.0" layoutY="36.0" prefHeight="101.0" prefWidth="615.0" />
-                     </children></AnchorPane>
-              </items>
+                  </VBox>
+               </items>
             </SplitPane>
       </children>
     </AnchorPane>
