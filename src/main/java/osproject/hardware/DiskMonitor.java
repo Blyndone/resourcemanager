@@ -90,7 +90,6 @@ public class DiskMonitor implements HardwareMonitor {
 
         });
         diskThread.start();
-        System.out.println("Disk Load: " + percent + "%");
         this.diskLoadPercent.setValue(percent);
         updateLog();
 
@@ -100,8 +99,7 @@ public class DiskMonitor implements HardwareMonitor {
 
     @Override
     public String getHardwareName() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHardwareName'");
+        return disk.getModel();
     }
 
     @Override

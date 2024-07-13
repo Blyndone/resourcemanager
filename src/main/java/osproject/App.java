@@ -308,19 +308,19 @@ public class App extends Application {
                 break;
 
             case "diskPane0":
-                targetLabel.setValue("Disk");
+                targetLabel.setValue("Disk- " + diskMonitors.get(0).getHardwareName());
                 currentChart.setTitle("Disk Usage");
                 hardwareMonitor = diskMonitors.get(0);
                 break;
 
             case "diskPane1":
-                targetLabel.setValue("Disk");
+                targetLabel.setValue("Disk- " + diskMonitors.get(1).getHardwareName());
                 currentChart.setTitle("Disk Usage");
                 hardwareMonitor = diskMonitors.get(1);
                 break;
 
             case "diskPane2":
-                targetLabel.setValue("Disk");
+                targetLabel.setValue("Disk- " + diskMonitors.get(2).getHardwareName());
                 currentChart.setTitle("Disk Usage");
                 hardwareMonitor = diskMonitors.get(2);
                 break;
