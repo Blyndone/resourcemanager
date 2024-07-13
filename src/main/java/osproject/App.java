@@ -17,6 +17,7 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -31,6 +32,7 @@ import osproject.hardware.RamMonitor;
 import osproject.logging.LogMonitor;
 
 import java.io.IOException;
+import java.net.URL;
 
 public class App extends Application {
 
@@ -46,17 +48,20 @@ public class App extends Application {
     private static CpuMonitor cpuMonitor = new CpuMonitor();
     private static RamMonitor ramMonitor = new RamMonitor();
     private static DiskMonitor diskMonitor = new DiskMonitor();
+    private static ArrayList<DiskMonitor> diskMonitors = new ArrayList<>();
+
     private static NetworkMonitor networkMonitor = new NetworkMonitor();
     private static ProcessMonitor processMonitor = new ProcessMonitor();
     private static DoubleObserver ramObserver = new DoubleObserver();
 
-    private static DoubleObserver diskObserver = new DoubleObserver();
-    private static ArrayList<DoubleObserver> diskObservers = new ArrayList<>();
+    // private static DoubleObserver diskObserver = new DoubleObserver();
+    // private static ArrayList<DoubleObserver> diskObservers = new ArrayList<>();
 
     private static DoubleObserver networkObserver = new DoubleObserver();
     private static StringObserver targetLabel = new StringObserver();
-    private static StringObserver processLabel = new StringObserver();
-    private static ArrayList<StringObserver> processObservers = new ArrayList<>();
+    // private static StringObserver processLabel = new StringObserver();
+    // private static ArrayList<StringObserver> processObservers = new
+    // ArrayList<>();
     private static StringObserver infoLabel = new StringObserver();
 
     private static LogMonitor logMonitor = new LogMonitor();
@@ -84,7 +89,7 @@ public class App extends Application {
 
     }
 
-    private void initializeLabels() {
+    private void initializeLabels() throws IOException {
         Label cpuLabel = (Label) scene.lookup("#cpuPer");
         cpuMonitor.setObserver(cpuObserver);
         cpuLabel.textProperty().bind(cpuObserver.valueProperty().asString("%.2f%%"));
@@ -93,31 +98,25 @@ public class App extends Application {
         ramMonitor.setObserver(ramObserver);
         ramLabel.textProperty().bind(ramObserver.valueProperty().asString("%.2f%%"));
 
-        Label diskLabel = (Label) scene.lookup("#diskPer");
+        // Label diskLabel = (Label) scene.lookup("#diskPer");
         List<HWDiskStore> disks = diskMonitor.getDisks();
-
         /// This will be for multiple disks
+
         diskMonitor.setScene(scene);
         int i = 0;
         for (HWDiskStore disk : disks) {
-            DoubleObserver observer = new DoubleObserver();
-            diskObservers.add(observer);
-            diskMonitor.addObserver(observer);
-            // Label label = new Label(processMonitor.getBasicProcessInfo(process));
-            // label.setId("process_" + i);
-            // label.textProperty().bind(observer.valueProperty());
-            // label.onMouseClickedProperty().set(event -> processEntityClick(event));
 
-            // processPane.getChildren().add(label);
-            System.out.println("Disk: " + disk.getName());
+            loadDisk(disk, i);
+
+            // System.out.println("Disk: " + disk.getName());
             i++;
         }
         // End
 
         /// Single Hard Coded Disk
-        diskMonitor = new DiskMonitor(disks.get(0));
-        diskMonitor.setObserver(diskObserver);
-        diskLabel.textProperty().bind(diskObserver.valueProperty().asString("%.2f%%"));
+        // diskMonitor = new DiskMonitor(disks.get(0));
+        // diskMonitor.setObserver(diskObserver);
+        // diskLabel.textProperty().bind(diskObserver.valueProperty().asString("%.2f%%"));
 
         Label networkLabel = (Label) scene.lookup("#networkPer");
         networkMonitor.setObserver(networkObserver);
@@ -136,7 +135,7 @@ public class App extends Application {
         i = 0;
         for (OSProcess process : processList) {
             StringObserver observer = new StringObserver();
-            processObservers.add(observer);
+            // processObservers.add(observer);
             processMonitor.addObserver(observer);
             Label label = new Label(processMonitor.getBasicProcessInfo(process));
             label.setId("process_" + i);
@@ -160,6 +159,33 @@ public class App extends Application {
         logTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             logTextArea.positionCaret(logTextArea.getText().length());
         });
+    }
+
+    private void loadDisk(HWDiskStore disk, int i) throws IOException {
+
+        DiskMonitor diskMonitor = new DiskMonitor(disk);
+        DoubleObserver observer = new DoubleObserver();
+        System.out.println("Disk: " + disk.getName() + observer.toString());
+
+        VBox hardwarelist = (VBox) scene.lookup("#hardwarelist");
+        URL diskpane = getClass().getResource("diskpane.fxml");
+        FXMLLoader loader = new FXMLLoader(diskpane);
+        Pane thisdisk = (Pane) loader.load();
+
+        diskMonitors.add(diskMonitor);
+        diskMonitor.setObserver(observer);
+
+        thisdisk.setId("diskPane" + i);
+        Label name = (Label) thisdisk.getChildren().get(0);
+        Label percent = (Label) thisdisk.getChildren().get(1);
+
+        name.setId("diskLabel" + i);
+        percent.setId("diskPer" + i);
+        name.setText(disk.getModel());
+        percent.textProperty().bind(observer.valueProperty().asString("%.2f%%"));
+
+        hardwarelist.getChildren().add(2 + i, thisdisk);
+
     }
 
     private void initializeChart() {
@@ -209,6 +235,14 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
+    private static Pane loadFXMLNode(String fxml) throws IOException {
+
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+
+        return fxmlLoader.load();
+
+    }
+
     public static void main(String[] args) {
 
         launch();
@@ -217,7 +251,12 @@ public class App extends Application {
     private static void tick() {
         double cpuPer = cpuMonitor.getLoadPercent();
         double ramPer = ramMonitor.getLoadPercent();
-        double diskPer = diskMonitor.getLoadPercent();
+        // double diskPer = diskMonitor.getLoadPercent();
+        double diskPer = 0;
+        for (DiskMonitor diskMonitor : diskMonitors) {
+            diskMonitor.getLoadPercent();
+
+        }
         double netPer = networkMonitor.getLoadPercent();
 
         String cpuStr = String.format("%.2f%%", cpuPer);
@@ -261,16 +300,31 @@ public class App extends Application {
                 currentChart.setTitle("Cpu Usage");
                 hardwareMonitor = cpuMonitor;
                 break;
+
             case "ramPane":
                 targetLabel.setValue("RAM");
                 currentChart.setTitle("Ram Usage");
                 hardwareMonitor = ramMonitor;
                 break;
-            case "diskPane":
+
+            case "diskPane0":
                 targetLabel.setValue("Disk");
                 currentChart.setTitle("Disk Usage");
-                hardwareMonitor = diskMonitor;
+                hardwareMonitor = diskMonitors.get(0);
                 break;
+
+            case "diskPane1":
+                targetLabel.setValue("Disk");
+                currentChart.setTitle("Disk Usage");
+                hardwareMonitor = diskMonitors.get(1);
+                break;
+
+            case "diskPane2":
+                targetLabel.setValue("Disk");
+                currentChart.setTitle("Disk Usage");
+                hardwareMonitor = diskMonitors.get(2);
+                break;
+
             case "networkPane":
                 targetLabel.setValue("Network");
                 currentChart.setTitle("Network Usage");

@@ -91,7 +91,7 @@
     </MenuBar>
       <TextFlow prefHeight="200.0" prefWidth="200.0" />
       <Pane prefHeight="200.0" prefWidth="200.0" />
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="650.0" prefWidth="642.0" VBox.vgrow="ALWAYS">
+    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="867.0" prefWidth="800.0" VBox.vgrow="ALWAYS">
       <children>
             <SplitPane layoutY="-141.0" orientation="VERTICAL" prefHeight="873.0" prefWidth="800.0">
                <items>
@@ -99,7 +99,7 @@
                      <children>
                         <SplitPane dividerPositions="0.2617554858934169" prefHeight="870.0" prefWidth="798.0">
                           <items>
-                              <VBox prefHeight="479.0" prefWidth="164.0">
+                              <VBox fx:id="hardwarelist" prefHeight="479.0" prefWidth="164.0">
                                  <children>
                                     <Pane fx:id="cpuPane" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
                                        <opaqueInsets>
@@ -129,23 +129,6 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="ramPer" layoutX="60.0" layoutY="53.0" text="15%">
-                                             <font>
-                                                <Font size="24.0" />
-                                             </font>
-                                          </Label>
-                                       </children>
-                                    </Pane>
-                                    <Pane fx:id="diskPane" onMouseClicked="#setTarget" prefHeight="106.0" prefWidth="165.0" style="-fx-border-color: grey; -fx-border-width: 3;">
-                                       <opaqueInsets>
-                                          <Insets />
-                                       </opaqueInsets>
-                                       <children>
-                                          <Label layoutX="63.0" layoutY="14.0" text="DISK">
-                                             <font>
-                                                <Font size="21.0" />
-                                             </font>
-                                          </Label>
-                                          <Label fx:id="diskPer" layoutX="60.0" layoutY="53.0" text="15%">
                                              <font>
                                                 <Font size="24.0" />
                                              </font>

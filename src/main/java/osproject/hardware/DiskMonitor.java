@@ -13,15 +13,16 @@ public class DiskMonitor implements HardwareMonitor {
 
     Scene scene;
 
-    DoubleObserver diskLoadPercent;
+    private DoubleObserver diskLoadPercent;
+    private HWDiskStore disk;
+
     SystemInfo systemInfo = new SystemInfo();
     HardwareAbstractionLayer hardware = systemInfo.getHardware();
-    HWDiskStore disk;
 
-    private static ArrayList<Double> diskLog = new ArrayList<>();
+    private ArrayList<Double> diskLog = new ArrayList<>();
     private static List<HWDiskStore> disks = new ArrayList<>();
-    private static ArrayList<DoubleObserver> observers = new ArrayList<>(10);
-    static double percent = 0;
+    // private ArrayList<DoubleObserver> observers = new ArrayList<>(10);
+    private double percent = 0;
 
     public DiskMonitor() {
         disks = getDisks();
@@ -89,8 +90,8 @@ public class DiskMonitor implements HardwareMonitor {
 
         });
         diskThread.start();
-
-        diskLoadPercent.setValue(percent);
+        System.out.println("Disk Load: " + percent + "%");
+        this.diskLoadPercent.setValue(percent);
         updateLog();
 
         return percent;
@@ -110,12 +111,12 @@ public class DiskMonitor implements HardwareMonitor {
 
     @Override
     public void setObserver(DoubleObserver observer) {
-        diskLoadPercent = observer;
+        this.diskLoadPercent = observer;
     }
 
-    public void addObserver(DoubleObserver observer) {
-        observers.add(observer);
-    }
+    // public void addObserver(DoubleObserver observer) {
+    // observers.add(observer);
+    // }
 
     public DoubleObserver getObserver() {
         return diskLoadPercent;
