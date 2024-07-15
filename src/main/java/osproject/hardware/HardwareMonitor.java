@@ -14,4 +14,6 @@ public interface HardwareMonitor {
 
     void setObserver(DoubleObserver observer);
 
+    double getMaxPercent();
+
 }

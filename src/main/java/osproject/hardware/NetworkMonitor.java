@@ -20,6 +20,7 @@ public class NetworkMonitor implements HardwareMonitor {
     private static ArrayList<Double> networkLog = new ArrayList<>();
 
     static double percent = 0;
+    double maxPercent = 100;
 
     @Override
     public Double getLoadPercent() {
@@ -86,6 +87,10 @@ public class NetworkMonitor implements HardwareMonitor {
             networkLog.remove(0);
         }
         networkLog.add(percent);
+    }
+
+    public double getMaxPercent() {
+        return maxPercent;
     }
 
 }

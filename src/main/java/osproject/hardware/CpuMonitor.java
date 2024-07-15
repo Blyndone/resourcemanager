@@ -21,6 +21,7 @@ public class CpuMonitor implements HardwareMonitor {
 
     static double percent = 0;
     static int delay = 1000;
+    double maxPercent = 100;
 
     @Override
     public Double getLoadPercent() {
@@ -60,6 +61,10 @@ public class CpuMonitor implements HardwareMonitor {
             cpuLog.remove(0);
         }
         cpuLog.add(percent);
+    }
+
+    public double getMaxPercent() {
+        return maxPercent;
     }
 
 }

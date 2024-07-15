@@ -18,6 +18,7 @@ public class RamMonitor implements HardwareMonitor {
     long usedMemory = totalMemory - availableMemory;
     private static ArrayList<Double> ramLog = new ArrayList<>();
     static double percent = 0;
+    double maxPercent = 100;
 
     // Helper method to format bytes into a human-readable format
     private static String formatBytes(long bytes) {
@@ -68,5 +69,9 @@ public class RamMonitor implements HardwareMonitor {
             ramLog.remove(0);
         }
         ramLog.add(percent);
+    }
+
+    public double getMaxPercent() {
+        return maxPercent;
     }
 }

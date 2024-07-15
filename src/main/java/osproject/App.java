@@ -283,6 +283,9 @@ public class App extends Application {
 
         }
 
+        NumberAxis yAxis = (NumberAxis) currentChart
+                .getYAxis();
+        yAxis.setUpperBound((int) hardwareMonitor.getMaxPercent());
         currentChart.getData().setAll(series);
 
     }

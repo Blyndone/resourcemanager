@@ -5,6 +5,8 @@ import oshi.hardware.HWDiskStore;
 import oshi.hardware.HardwareAbstractionLayer;
 import osproject.DoubleObserver;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javafx.scene.Scene;
@@ -23,6 +25,7 @@ public class DiskMonitor implements HardwareMonitor {
     private static List<HWDiskStore> disks = new ArrayList<>();
     // private ArrayList<DoubleObserver> observers = new ArrayList<>(10);
     private double percent = 0;
+    double maxPercent = 100;
 
     public DiskMonitor() {
         disks = getDisks();
@@ -86,6 +89,8 @@ public class DiskMonitor implements HardwareMonitor {
             long writeBytesChange = finalWriteBytes - initialWriteBytes;
 
             double mbPerSecond = (readBytesChange + writeBytesChange) / 1048576.0; // Convert bytes change to MB
+
+            maxPercent = Math.max((Collections.max(diskLog) + 10), 100);
             percent = (mbPerSecond / 100.0) * 100; // Calculate as a percentage of 100 MB/s
 
         });
@@ -130,5 +135,9 @@ public class DiskMonitor implements HardwareMonitor {
 
     public void setScene(Scene scene) {
         this.scene = scene;
+    }
+
+    public double getMaxPercent() {
+        return maxPercent;
     }
 }
