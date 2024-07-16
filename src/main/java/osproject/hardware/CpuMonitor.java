@@ -39,8 +39,7 @@ public class CpuMonitor implements HardwareMonitor {
     @Override
     public String getHardwareName() {
 
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHardwareName'");
+        return processor.getProcessorIdentifier().getName();
     }
 
     public DoubleObserver getObserver() {

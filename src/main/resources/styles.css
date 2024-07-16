@@ -13,10 +13,29 @@
   -fx-accent: #696969;
 }
 .sidebarTitle {
+  -fx-font-family: "Arial";
+  font-family: "Arial";
   -fx-text-fill: white;
+  -fx-max-width: 150px; /* Adjust the width as needed */
+  -fx-text-overrun: ellipsis;
+  -fx-alignment: top-left;
+}
+.sidebarHardware {
+  -fx-font-family: "Arial";
+  font-family: "Arial";
+  -fx-text-fill: rgb(209, 209, 209);
+  -fx-max-width: 150px; /* Adjust the width as needed */
+  -fx-text-overrun: ellipsis;
+  -fx-alignment: top-left;
+  -fx-font-size: 14px;
 }
 .sidebarLabel {
+  -fx-font-family: "Arial";
+  font-family: "Arial";
   -fx-text-fill: white;
+  -fx-alignment: center; /* Center the text */
+  -ms-flex-item-align: center;
+  -fx-font-size: 22px;
 }
 
 .chartPane {

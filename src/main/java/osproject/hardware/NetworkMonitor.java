@@ -64,9 +64,15 @@ public class NetworkMonitor implements HardwareMonitor {
 
     @Override
     public String getHardwareName() {
-
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getHardwareName'");
+        StringBuilder hardwareNames = new StringBuilder();
+        for (NetworkIF net : networkIF) {
+            hardwareNames.append(net.getDisplayName()).append(", ");
+        }
+        // Remove the trailing comma and space
+        if (hardwareNames.length() > 0) {
+            hardwareNames.setLength(hardwareNames.length() - 2);
+        }
+        return hardwareNames.toString();
     }
 
     public DoubleObserver getObserver() {

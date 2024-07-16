@@ -106,14 +106,19 @@
                                           <Insets />
                                        </opaqueInsets>
                                        <children>
-                                          <Label layoutX="82.0" layoutY="14.0" styleClass="sidebarTitle" text="CPU" textFill="WHITE">
+                                          <Label alignment="TOP_LEFT" layoutX="5.0" layoutY="5.0" styleClass="sidebarTitle" text="CPU" textAlignment="CENTER" textFill="WHITE">
                                              <font>
-                                                <Font size="21.0" />
+                                                <Font name="Arial" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="cpuPer" layoutX="79.0" layoutY="53.0" styleClass="sidebarLabel" text="15%">
+                                          <Label fx:id="cpuPer" alignment="BOTTOM_CENTER" layoutX="80.0" layoutY="70.0" styleClass="sidebarLabel" text="15%">
                                              <font>
                                                 <Font size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="cpuHard" layoutX="20.0" layoutY="35.0" styleClass="sidebarHardware" text="CPU" textFill="WHITE">
+                                             <font>
+                                                <Font size="21.0" />
                                              </font>
                                           </Label>
                                        </children>
@@ -123,14 +128,19 @@
                                           <Insets />
                                        </opaqueInsets>
                                        <children>
-                                          <Label layoutX="80.0" layoutY="14.0" styleClass="sidebarTitle" text="RAM">
+                                          <Label layoutX="5.0" layoutY="5.0" styleClass="sidebarTitle" text="RAM">
                                              <font>
                                                 <Font size="21.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ramPer" layoutX="80.0" layoutY="53.0" styleClass="sidebarLabel" text="15%">
+                                          <Label fx:id="ramPer" alignment="BOTTOM_CENTER" layoutX="80.0" layoutY="70.0" styleClass="sidebarLabel" text="15%">
                                              <font>
                                                 <Font size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="ramHard" layoutX="20.0" layoutY="35.0" styleClass="sidebarHardware" text="CPU" textFill="WHITE">
+                                             <font>
+                                                <Font size="21.0" />
                                              </font>
                                           </Label>
                                        </children>
@@ -140,14 +150,19 @@
                                           <Insets />
                                        </opaqueInsets>
                                        <children>
-                                          <Label layoutX="54.0" layoutY="14.0" styleClass="sidebarTitle" text="NETWORK">
+                                          <Label layoutX="5.0" layoutY="5.0" styleClass="sidebarTitle" text="NETWORK">
                                              <font>
                                                 <Font size="21.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="networkPer" layoutX="80.0" layoutY="53.0" styleClass="sidebarLabel" text="15%">
+                                          <Label fx:id="networkPer" alignment="BOTTOM_CENTER" layoutX="80.0" layoutY="70.0" styleClass="sidebarLabel" text="15%">
                                              <font>
                                                 <Font size="24.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="netHard" layoutX="20.0" layoutY="35.0" styleClass="sidebarHardware" text="CPU" textFill="WHITE">
+                                             <font>
+                                                <Font size="21.0" />
                                              </font>
                                           </Label>
                                        </children>

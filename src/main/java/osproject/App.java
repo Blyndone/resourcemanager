@@ -95,10 +95,14 @@ public class App extends Application {
         Label cpuLabel = (Label) scene.lookup("#cpuPer");
         cpuMonitor.setObserver(cpuObserver);
         cpuLabel.textProperty().bind(cpuObserver.valueProperty().asString("%.2f%%"));
+        Label cpuhardLabel = (Label) scene.lookup("#cpuHard");
+        cpuhardLabel.textProperty().set(cpuMonitor.getHardwareName());
 
         Label ramLabel = (Label) scene.lookup("#ramPer");
         ramMonitor.setObserver(ramObserver);
         ramLabel.textProperty().bind(ramObserver.valueProperty().asString("%.2f%%"));
+        Label ramHardLabel = (Label) scene.lookup("#ramHard");
+        ramHardLabel.textProperty().set(ramMonitor.getHardwareName());
 
         // Label diskLabel = (Label) scene.lookup("#diskPer");
         List<HWDiskStore> disks = diskMonitor.getDisks();
@@ -123,6 +127,8 @@ public class App extends Application {
         Label networkLabel = (Label) scene.lookup("#networkPer");
         networkMonitor.setObserver(networkObserver);
         networkLabel.textProperty().bind(networkObserver.valueProperty().asString("%.2f%%"));
+        Label netHardLabel = (Label) scene.lookup("#netHard");
+        netHardLabel.textProperty().set(networkMonitor.getHardwareName());
 
         Label targetLabelUI = (Label) scene.lookup("#targetLabel");
         targetLabelUI.textProperty().bind(targetLabel.valueProperty());
@@ -179,12 +185,14 @@ public class App extends Application {
 
         thisdisk.setId("diskPane" + i);
         Label name = (Label) thisdisk.getChildren().get(0);
+        Label hardware = (Label) thisdisk.getChildren().get(2);
         Label percent = (Label) thisdisk.getChildren().get(1);
 
         name.setId("diskLabel" + i);
         percent.setId("diskPer" + i);
-        name.setText(disk.getModel());
+        name.setText("Disk " + i);
         percent.textProperty().bind(observer.valueProperty().asString("%.2f%%"));
+        hardware.setText(disk.getModel());
 
         hardwarelist.getChildren().add(2 + i, thisdisk);
 

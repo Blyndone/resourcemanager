@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import oshi.SystemInfo;
 import oshi.hardware.GlobalMemory;
 import oshi.hardware.HardwareAbstractionLayer;
+import oshi.hardware.PhysicalMemory;
 import osproject.DoubleObserver;
 
 public class RamMonitor implements HardwareMonitor {
@@ -20,7 +21,6 @@ public class RamMonitor implements HardwareMonitor {
     static double percent = 0;
     double maxPercent = 100;
 
-    // Helper method to format bytes into a human-readable format
     private static String formatBytes(long bytes) {
         int unit = 1024;
         if (bytes < unit)
@@ -47,8 +47,11 @@ public class RamMonitor implements HardwareMonitor {
 
     @Override
     public String getHardwareName() {
-
-        throw new UnsupportedOperationException("Unimplemented method 'getHardwareName'");
+        long totalCapacity = 0;
+        for (PhysicalMemory memory : hardware.getMemory().getPhysicalMemory()) {
+            totalCapacity += memory.getCapacity();
+        }
+        return hardware.getMemory().getPhysicalMemory().get(0).getMemoryType() + " " + formatBytes(totalCapacity);
     }
 
     @Override
