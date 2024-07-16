@@ -5,7 +5,7 @@ import java.util.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,6 +19,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
+import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import oshi.hardware.HWDiskStore;
@@ -62,7 +64,9 @@ public class App extends Application {
     // private static StringObserver processLabel = new StringObserver();
     // private static ArrayList<StringObserver> processObservers = new
     // ArrayList<>();
-    private static StringObserver infoLabel = new StringObserver();
+    // private static StringObserver infoLabel = new StringObserver();
+    private static Label infoLabelUI = new Label();
+    private static int currentProcessId = 0;
 
     private static LogMonitor logMonitor = new LogMonitor();
 
@@ -76,6 +80,7 @@ public class App extends Application {
         String css = this.getClass().getResource("/styles.css").toExternalForm();
         scene.getStylesheets().add(css);
         stage.setScene(scene);
+        stage.setTitle("Resource Monitor");
 
         stage.show();
         /// Label Bindings
@@ -84,7 +89,7 @@ public class App extends Application {
         initializeChart();
 
         // Starts the monitor Loop
-        targetLabel.setValue("CPU");
+        targetLabel.setValue("CPU - " + cpuMonitor.getHardwareName());
         hardwareMonitor = cpuMonitor;
 
         startMonitor();
@@ -154,8 +159,8 @@ public class App extends Application {
             i++;
         }
 
-        Label infoLabelUI = (Label) scene.lookup("#infoLabel");
-        infoLabelUI.textProperty().bind(infoLabel.valueProperty());
+        infoLabelUI = (Label) scene.lookup("#infoLabel");
+        // infoLabelUI.textProperty().bind(infoLabel.valueProperty());
 
         TextArea logTextArea = (TextArea) scene.lookup(
                 "#logLabel");
@@ -276,6 +281,7 @@ public class App extends Application {
 
         logMonitor.log("CPU: " + cpuStr + "RAM: " + ramStr + "Disk: " + diskStr + "Network: " + netStr);
         processMonitor.updateProcesses();
+        updateProcessLabel(currentProcessId);
 
         updateChart();
 
@@ -309,13 +315,13 @@ public class App extends Application {
 
         switch (sourceId) {
             case "cpuPane":
-                targetLabel.setValue("CPU");
+                targetLabel.setValue("CPU - " + cpuMonitor.getHardwareName());
                 currentChart.setTitle("Cpu Usage");
                 hardwareMonitor = cpuMonitor;
                 break;
 
             case "ramPane":
-                targetLabel.setValue("RAM");
+                targetLabel.setValue("RAM- " + ramMonitor.getHardwareName());
                 currentChart.setTitle("Ram Usage");
                 hardwareMonitor = ramMonitor;
                 break;
@@ -339,7 +345,7 @@ public class App extends Application {
                 break;
 
             case "networkPane":
-                targetLabel.setValue("Network");
+                targetLabel.setValue("Network- " + networkMonitor.getHardwareName());
                 currentChart.setTitle("Network Usage");
                 hardwareMonitor = networkMonitor;
                 break;
@@ -360,8 +366,19 @@ public class App extends Application {
         String[] parts = sourceId.split("_");
         int index = Integer.parseInt(parts[1]);
         OSProcess process = processMonitor.getProcess(index);
+        int processID = process.getProcessID();
+        if (currentProcessId != processID) {
+            currentProcessId = processID;
+        }
+        updateProcessLabel(currentProcessId);
 
+    }
+
+    private static void updateProcessLabel(int procID) {
+        OSProcess process = processMonitor.getProcessByID(procID);
         Map<String, Object> processDetails = processMonitor.getDetailProcessInfo(process);
+
+        currentProcessId = process.getProcessID();
 
         int processID = (int) processDetails.get("Process ID");
         String name = (String) processDetails.get("Name");
@@ -372,11 +389,51 @@ public class App extends Application {
         int threadCount = (int) processDetails.get("Thread Count");
         String state = (String) processDetails.get("State");
 
-        String formattedDetails = String.format(
-                "Process ID:\t%d\t|\tName:\t%s\t|\tMemory:\t%s\nPriority:\t%d\t|\tUptime:\t%d\t|\tCPU Load:\t%.2f\nThread Count:\t%d\t|\tState:\t%s",
-                processID, name, memory, priority, uptime, cpuLoad, threadCount, state);
+        TextFlow textFlow = new TextFlow();
 
-        infoLabel.setValue(formattedDetails);
+        Text nameText = new Text("Name: ");
+        nameText.setStyle("-fx-font-weight: bold");
+        Text nameValue = new Text(name + "\n");
+
+        Text processIDText = new Text("Process ID: ");
+        processIDText.setStyle("-fx-font-weight: bold");
+        Text processIDValue = new Text(processID + "\t|\t");
+
+        Text memoryText = new Text("Memory: ");
+        memoryText.setStyle("-fx-font-weight: bold");
+        Text memoryValue = new Text(memory + "\n");
+
+        Text priorityText = new Text("Priority: ");
+        priorityText.setStyle("-fx-font-weight: bold");
+        Text priorityValue = new Text(priority + "\t|\t");
+
+        Text uptimeText = new Text("Uptime: ");
+        uptimeText.setStyle("-fx-font-weight: bold");
+        Text uptimeValue = new Text(uptime + "\t|\t");
+
+        Text cpuLoadText = new Text("CPU Load: ");
+        cpuLoadText.setStyle("-fx-font-weight: bold");
+        Text cpuLoadValue = new Text(String.format("%.2f", cpuLoad) + "\n");
+
+        Text threadCountText = new Text("Thread Count: ");
+        threadCountText.setStyle("-fx-font-weight: bold");
+        Text threadCountValue = new Text(threadCount + "\n");
+
+        Text stateText = new Text("State: ");
+        stateText.setStyle("-fx-font-weight: bold");
+        Text stateValue = new Text(state);
+
+        textFlow.getChildren().addAll(
+                nameText, nameValue,
+                processIDText, processIDValue,
+                memoryText, memoryValue,
+                priorityText, priorityValue,
+                uptimeText, uptimeValue,
+                cpuLoadText, cpuLoadValue,
+                threadCountText, threadCountValue,
+                stateText, stateValue);
+
+        infoLabelUI.setGraphic(textFlow);
     }
 
 }

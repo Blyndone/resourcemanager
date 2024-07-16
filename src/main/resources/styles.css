@@ -42,6 +42,10 @@
   -fx-background-color: grey;
 }
 .chartTitle {
+  -fx-font-family: "Arial";
+  font-family: "Arial";
+  -fx-text-fill: rgb(36, 35, 35);
+  -fx-font-size: 23px;
 }
 .chartSubtitle {
 }
@@ -50,12 +54,20 @@
 }
 
 .processPane {
-  -fx-background-color: white;
+  -fx-background-color: rgb(230, 230, 230);
   -fx-border-color: black;
 }
 .processTitle {
+  -fx-font-family: "Arial";
+  font-family: "Arial";
+  -fx-text-fill: rgb(36, 35, 35);
+  -fx-font-size: 18px;
 }
 .processLabel {
+  -fx-font-family: "Arial";
+  font-family: "Arial";
+  -fx-text-fill: rgb(36, 35, 35);
+  -fx-font-size: 10px;
 }
 
 .infoPane {
@@ -64,6 +76,10 @@
 }
 .infoLabel {
   -fx-border-color: grey;
+  -fx-font-family: "Arial";
+  font-family: "Arial";
+  -fx-text-fill: rgb(36, 35, 35);
+  -fx-font-size: 14px;
 }
 
 .logPane {

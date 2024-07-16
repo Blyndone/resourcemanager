@@ -80,6 +80,15 @@ public class ProcessMonitor {
         return currentProcesses.get(index);
     }
 
+    public OSProcess getProcessByID(int processID) {
+        for (OSProcess process : currentProcesses) {
+            if (process.getProcessID() == processID) {
+                return process;
+            }
+        }
+        return null; // Process not found
+    }
+
     public ArrayList<OSProcess> getProcess() {
         // getProcessList(10);
 
