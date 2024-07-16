@@ -200,14 +200,14 @@ public class App extends Application {
         xAxis.setLowerBound(0);
         xAxis.setUpperBound(12);
         xAxis.setTickUnit(1);
-        xAxis.setLabel("X Axis Label");
+        xAxis.setLabel("Time Passed");
 
         NumberAxis yAxis = (NumberAxis) currentChart
                 .getYAxis();
         yAxis.setLowerBound(0);
         yAxis.setUpperBound(100);
         yAxis.setTickUnit(10);
-        yAxis.setLabel("Y Axis Label");
+        yAxis.setLabel("Percent Usage");
 
         updateChart();
     }
