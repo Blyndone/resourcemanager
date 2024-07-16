@@ -206,14 +206,14 @@
                                              <children>
                                                 <SplitPane dividerPositions="0.4695121951219512" orientation="VERTICAL" prefHeight="330.0" prefWidth="583.0">
                                                    <items>
-                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="640.0">
+                                                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="147.0" prefWidth="640.0" styleClass="infoPane">
                                                          <children>
-                                                            <Label layoutX="14.0" prefHeight="51.0" prefWidth="260.0" styleClass="infoTitle" text="Detailed Process Info" textAlignment="CENTER">
+                                                            <Label alignment="TOP_LEFT" layoutX="17.0" layoutY="9.0" prefHeight="51.0" prefWidth="502.0" styleClass="infoTitle" text="Detailed Process Info" textAlignment="CENTER">
                                                                <font>
                                                                   <Font name="Arial" size="26.0" />
                                                                </font>
                                                             </Label>
-                                                            <Label fx:id="infoLabel" alignment="TOP_LEFT" layoutX="15.0" layoutY="41.0" prefHeight="96.0" prefWidth="565.0" styleClass="infoLabel">
+                                                            <Label fx:id="infoLabel" alignment="TOP_LEFT" layoutX="15.0" layoutY="41.0" prefHeight="96.0" prefWidth="551.0" styleClass="infoLabel">
                                                                <font>
                                                                   <Font size="15.0" />
                                                                </font>

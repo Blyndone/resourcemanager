@@ -19,6 +19,7 @@
   -fx-max-width: 150px; /* Adjust the width as needed */
   -fx-text-overrun: ellipsis;
   -fx-alignment: top-left;
+  -fx-font-size: 20px;
 }
 .sidebarHardware {
   -fx-font-family: "Arial";
@@ -46,6 +47,7 @@
   font-family: "Arial";
   -fx-text-fill: rgb(36, 35, 35);
   -fx-font-size: 23px;
+  -fx-font-weight: bold;
 }
 .chartSubtitle {
 }
@@ -56,12 +58,14 @@
 .processPane {
   -fx-background-color: rgb(230, 230, 230);
   -fx-border-color: black;
+  -fx-border-width: 2px;
 }
 .processTitle {
   -fx-font-family: "Arial";
   font-family: "Arial";
   -fx-text-fill: rgb(36, 35, 35);
   -fx-font-size: 18px;
+  -fx-font-weight: bold;
 }
 .processLabel {
   -fx-font-family: "Arial";
@@ -71,15 +75,25 @@
 }
 
 .infoPane {
+  -fx-background-color: grey;
+  -fx-border-color: black;
 }
 .infoTitle {
+  -fx-font-family: "Arial";
+  font-family: "Arial";
+  -fx-text-fill: rgb(36, 35, 35);
+  -fx-font-size: 20px;
+  -fx-font-weight: bold;
 }
 .infoLabel {
-  -fx-border-color: grey;
+  -fx-border-color: #3b3b3b;
+  -fx-border-width: 2px;
+  -fx-border-style: solid;
   -fx-font-family: "Arial";
   font-family: "Arial";
   -fx-text-fill: rgb(36, 35, 35);
   -fx-font-size: 14px;
+  -fx-background-color: #f0f0f0;
 }
 
 .logPane {

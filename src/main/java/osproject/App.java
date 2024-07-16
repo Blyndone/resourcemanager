@@ -81,7 +81,7 @@ public class App extends Application {
         scene.getStylesheets().add(css);
         stage.setScene(scene);
         stage.setTitle("Resource Monitor");
-
+        stage.setResizable(false);
         stage.show();
         /// Label Bindings
         initializeLabels();
@@ -206,7 +206,7 @@ public class App extends Application {
     private void initializeChart() {
         currentChart = (LineChart<Number, Number>) scene.lookup("#graph");
 
-        currentChart.setTitle("CPU Usage");
+        // currentChart.setTitle("CPU Usage");
         currentChart.getXAxis().setAutoRanging(false);
         currentChart.getYAxis().setAutoRanging(false);
         currentChart.setAnimated(false);
@@ -215,14 +215,16 @@ public class App extends Application {
         xAxis.setLowerBound(0);
         xAxis.setUpperBound(12);
         xAxis.setTickUnit(1);
-        xAxis.setLabel("Time Passed");
+        // xAxis.setLabel("Time Passed");
 
         NumberAxis yAxis = (NumberAxis) currentChart
                 .getYAxis();
         yAxis.setLowerBound(0);
         yAxis.setUpperBound(100);
         yAxis.setTickUnit(10);
-        yAxis.setLabel("Percent Usage");
+        // yAxis.setLabel("Percent Usage");
+        currentChart.setLegendVisible(false);
+        xAxis.setTickLabelsVisible(false);
 
         updateChart();
     }
@@ -250,13 +252,14 @@ public class App extends Application {
         return fxmlLoader.load();
     }
 
-    private static Pane loadFXMLNode(String fxml) throws IOException {
+    // private static Pane loadFXMLNode(String fxml) throws IOException {
 
-        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml + ".fxml"));
+    // FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource(fxml +
+    // ".fxml"));
 
-        return fxmlLoader.load();
+    // return fxmlLoader.load();
 
-    }
+    // }
 
     public static void main(String[] args) {
 
@@ -302,6 +305,7 @@ public class App extends Application {
         NumberAxis yAxis = (NumberAxis) currentChart
                 .getYAxis();
         yAxis.setUpperBound((int) hardwareMonitor.getMaxPercent());
+        series.setName("");
         currentChart.getData().setAll(series);
 
     }
@@ -375,10 +379,12 @@ public class App extends Application {
     }
 
     private static void updateProcessLabel(int procID) {
+        if (procID == 0) {
+            return;
+        }
+
         OSProcess process = processMonitor.getProcessByID(procID);
         Map<String, Object> processDetails = processMonitor.getDetailProcessInfo(process);
-
-        currentProcessId = process.getProcessID();
 
         int processID = (int) processDetails.get("Process ID");
         String name = (String) processDetails.get("Name");
@@ -397,7 +403,7 @@ public class App extends Application {
 
         Text processIDText = new Text("Process ID: ");
         processIDText.setStyle("-fx-font-weight: bold");
-        Text processIDValue = new Text(processID + "\t|\t");
+        Text processIDValue = new Text(processID + " \t|\t");
 
         Text memoryText = new Text("Memory: ");
         memoryText.setStyle("-fx-font-weight: bold");
@@ -405,11 +411,11 @@ public class App extends Application {
 
         Text priorityText = new Text("Priority: ");
         priorityText.setStyle("-fx-font-weight: bold");
-        Text priorityValue = new Text(priority + "\t|\t");
+        Text priorityValue = new Text(priority + " \t|\t");
 
         Text uptimeText = new Text("Uptime: ");
         uptimeText.setStyle("-fx-font-weight: bold");
-        Text uptimeValue = new Text(uptime + "\t|\t");
+        Text uptimeValue = new Text(uptime + " \t|\t");
 
         Text cpuLoadText = new Text("CPU Load: ");
         cpuLoadText.setStyle("-fx-font-weight: bold");

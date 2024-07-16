@@ -26,9 +26,10 @@ public class ProcessMonitor {
     private static ArrayList<String> processLog = new ArrayList<>();
     private static ArrayList<OSProcess> currentProcesses = new ArrayList<>();
     private static ArrayList<StringObserver> observers = new ArrayList<>(10);
+    private int processCount = 20;
 
     public ProcessMonitor() {
-        getProcessList(10);
+        getProcessList(processCount);
     }
 
     public ArrayList<String> getProcessList(int size) {
@@ -119,7 +120,7 @@ public class ProcessMonitor {
     }
 
     public void updateProcesses() {
-        ArrayList<String> processLog = getProcessList(10);
+        ArrayList<String> processLog = getProcessList(processCount);
         for (int i = 0; i < observers.size(); i++) {
             observers.get(i).setValue(processLog.get(i));
             Label targetLabelUI = (Label) scene.lookup("process_" + i);
