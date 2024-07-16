@@ -21,6 +21,7 @@ public class NetworkMonitor implements HardwareMonitor {
 
     static double percent = 0;
     double maxPercent = 100;
+    int logSize = 30;
 
     @Override
     public Double getLoadPercent() {
@@ -89,7 +90,7 @@ public class NetworkMonitor implements HardwareMonitor {
 
     public void updateLog() {
 
-        if (networkLog.size() > 12) {
+        if (networkLog.size() > logSize) {
             networkLog.remove(0);
         }
         networkLog.add(percent);

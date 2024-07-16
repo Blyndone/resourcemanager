@@ -26,6 +26,7 @@ public class DiskMonitor implements HardwareMonitor {
     // private ArrayList<DoubleObserver> observers = new ArrayList<>(10);
     private double percent = 0;
     double maxPercent = 100;
+    int logSize = 30;
 
     public DiskMonitor() {
         disks = getDisks();
@@ -127,7 +128,7 @@ public class DiskMonitor implements HardwareMonitor {
 
     public void updateLog() {
 
-        if (diskLog.size() > 12) {
+        if (diskLog.size() > logSize) {
             diskLog.remove(0);
         }
         diskLog.add(percent);

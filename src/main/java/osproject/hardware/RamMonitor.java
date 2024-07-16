@@ -20,6 +20,7 @@ public class RamMonitor implements HardwareMonitor {
     private static ArrayList<Double> ramLog = new ArrayList<>();
     static double percent = 0;
     double maxPercent = 100;
+    int logSize = 30;
 
     private static String formatBytes(long bytes) {
         int unit = 1024;
@@ -68,7 +69,7 @@ public class RamMonitor implements HardwareMonitor {
 
     public void updateLog() {
 
-        if (ramLog.size() > 12) {
+        if (ramLog.size() > logSize) {
             ramLog.remove(0);
         }
         ramLog.add(percent);

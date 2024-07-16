@@ -22,6 +22,7 @@ public class CpuMonitor implements HardwareMonitor {
     static double percent = 0;
     static int delay = 1000;
     double maxPercent = 100;
+    int logSize = 30;
 
     @Override
     public Double getLoadPercent() {
@@ -56,7 +57,7 @@ public class CpuMonitor implements HardwareMonitor {
 
     public void updateLog() {
 
-        if (cpuLog.size() > 12) {
+        if (cpuLog.size() > logSize) {
             cpuLog.remove(0);
         }
         cpuLog.add(percent);

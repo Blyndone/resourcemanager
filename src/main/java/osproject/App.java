@@ -294,17 +294,20 @@ public class App extends Application {
 
         XYChart.Series<Number, Number> series = new XYChart.Series<Number, Number>();
 
-        ArrayList<Double> cpuLog = hardwareMonitor.getLog();
+        ArrayList<Double> hwLog = hardwareMonitor.getLog();
 
-        for (int i = 0; i < cpuLog.size(); i++) {
+        for (int i = 0; i < hwLog.size(); i++) {
 
-            series.getData().add(new XYChart.Data<Number, Number>(i, cpuLog.get(i)));
+            series.getData().add(new XYChart.Data<Number, Number>(i, hwLog.get(i)));
 
         }
 
         NumberAxis yAxis = (NumberAxis) currentChart
                 .getYAxis();
         yAxis.setUpperBound((int) hardwareMonitor.getMaxPercent());
+        NumberAxis xAxis = (NumberAxis) currentChart
+                .getXAxis();
+        xAxis.setUpperBound(Math.max(hwLog.size(), 12));
         series.setName("");
         currentChart.getData().setAll(series);
 
