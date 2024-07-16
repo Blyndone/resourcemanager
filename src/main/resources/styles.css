@@ -1,0 +1,56 @@
+.root {
+  background-color: #ff0000;
+  -fx-font-family: "Arial";
+  font-family: "Arial";
+  -fx-font-size: 14px;
+  font-size: 14px;
+}
+
+.sidebarPane {
+  -fx-border-color: grey;
+  -fx-border-width: 3;
+  -fx-background-color: black;
+  -fx-accent: #696969;
+}
+.sidebarTitle {
+  -fx-text-fill: white;
+}
+.sidebarLabel {
+  -fx-text-fill: white;
+}
+
+.chartPane {
+  -fx-background-color: grey;
+}
+.chartTitle {
+}
+.chartSubtitle {
+}
+.chart {
+  -fx-border-color: #000000;
+}
+
+.processPane {
+  -fx-background-color: white;
+  -fx-border-color: black;
+}
+.processTitle {
+}
+.processLabel {
+}
+
+.infoPane {
+}
+.infoTitle {
+}
+.infoLabel {
+  -fx-border-color: grey;
+}
+
+.logPane {
+}
+.logTitle {
+}
+.logLabel {
+  -fx-border-color: grey;
+}

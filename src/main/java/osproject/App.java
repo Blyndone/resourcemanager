@@ -73,6 +73,8 @@ public class App extends Application {
     public void start(Stage stage) throws IOException {
         hardwareMonitor = cpuMonitor;
         scene = new Scene(loadFXML("resourcemonitor"));
+        String css = this.getClass().getResource("/styles.css").toExternalForm();
+        scene.getStylesheets().add(css);
         stage.setScene(scene);
 
         stage.show();
