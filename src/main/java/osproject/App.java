@@ -105,13 +105,13 @@ public class App extends Application {
     private void initializeLabels() throws IOException {
         Label cpuLabel = (Label) scene.lookup("#cpuPer");
         cpuMonitor.setObserver(cpuObserver);
-        cpuLabel.textProperty().bind(cpuObserver.valueProperty().asString("%.2f%%"));
+        cpuLabel.textProperty().bind(cpuObserver.valueProperty().asString("%.1f%%"));
         Label cpuhardLabel = (Label) scene.lookup("#cpuHard");
         cpuhardLabel.textProperty().set(cpuMonitor.getHardwareName());
 
         Label ramLabel = (Label) scene.lookup("#ramPer");
         ramMonitor.setObserver(ramObserver);
-        ramLabel.textProperty().bind(ramObserver.valueProperty().asString("%.2f%%"));
+        ramLabel.textProperty().bind(ramObserver.valueProperty().asString("%.1f%%"));
         Label ramHardLabel = (Label) scene.lookup("#ramHard");
         ramHardLabel.textProperty().set(ramMonitor.getHardwareName());
 
@@ -137,7 +137,7 @@ public class App extends Application {
 
         Label networkLabel = (Label) scene.lookup("#networkPer");
         networkMonitor.setObserver(networkObserver);
-        networkLabel.textProperty().bind(networkObserver.valueProperty().asString("%.2f%%"));
+        networkLabel.textProperty().bind(networkObserver.valueProperty().asString("%.1f%%"));
         Label netHardLabel = (Label) scene.lookup("#netHard");
         netHardLabel.textProperty().set(networkMonitor.getHardwareName());
 
@@ -205,7 +205,7 @@ public class App extends Application {
         name.setId("diskLabel" + i);
         percent.setId("diskPer" + i);
         name.setText("Disk " + i);
-        percent.textProperty().bind(observer.valueProperty().asString("%.2f%%"));
+        percent.textProperty().bind(observer.valueProperty().asString("%.1f%%"));
         hardware.setText(disk.getModel());
 
         hardwarelist.getChildren().add(2 + i, thisdisk);
@@ -286,12 +286,31 @@ public class App extends Application {
         }
         double netPer = networkMonitor.getLoadPercent();
 
-        String cpuStr = String.format("%.2f%%", cpuPer);
-        String ramStr = String.format("%.2f%%", ramPer);
-        String diskStr = String.format("%.2f%%", diskPer);
-        String netStr = String.format("%.2f%%", netPer);
+        String cpuStr = String.format("%.0f%%", cpuPer);
+        String ramStr = String.format("%.0f%%", ramPer);
+        String diskStr = String.format("%.0f%%", diskPer);
+        String netStr = String.format("%.0f%%", netPer);
 
-        logMonitor.log("CPU: " + cpuStr + " | RAM: " + ramStr + " | Disk: " + diskStr + " | Network: " + netStr);
+        cpuStr = "CPU: " + cpuStr;
+        ramStr = "RAM: " + ramStr;
+        diskStr = "Disk: " + diskStr;
+        netStr = "Network: " + netStr;
+
+        int totalLength = 55;
+        int numVariables = 4;
+        String separator = "";
+
+        int availableLength = totalLength - (separator.length() * (numVariables - 1));
+        int fixedLength = availableLength / numVariables;
+
+        String formattedLog = String.format(
+                "%-" + fixedLength + "s" + separator + "%-" + fixedLength + "s" + separator + "%-" + fixedLength + "s"
+                        + separator + "%-" + fixedLength + "s",
+                cpuStr, ramStr, diskStr, netStr);
+
+        logMonitor.log(formattedLog);
+
+        logMonitor.log(formattedLog);
         processMonitor.updateProcesses();
         updateProcessLabel(currentProcessId);
 

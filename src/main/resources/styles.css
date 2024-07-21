@@ -25,7 +25,7 @@
   -fx-font-family: "Arial";
   font-family: "Arial";
   -fx-text-fill: rgb(209, 209, 209);
-  -fx-max-width: 150px; /* Adjust the width as needed */
+  -fx-max-width: 135px; /* Adjust the width as needed */
   -fx-text-overrun: ellipsis;
   -fx-alignment: top-left;
   -fx-font-size: 14px;
@@ -37,6 +37,7 @@
   -fx-alignment: center; /* Center the text */
   -ms-flex-item-align: center;
   -fx-font-size: 22px;
+  -fx-flex-align: bottom-center;
 }
 
 .chartPane {
@@ -120,8 +121,7 @@
 }
 .logLabel {
   -fx-border-color: grey;
-  -fx-font-family: "Arial";
-  font-family: "Arial";
+  -fx-font-family: "Courier New", Courier, monospace;
   -fx-text-fill: rgb(36, 35, 35);
   -fx-font-size: 13px;
 }
