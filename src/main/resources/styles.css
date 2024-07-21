@@ -103,3 +103,13 @@
 .logLabel {
   -fx-border-color: grey;
 }
+
+.chart-series-line {
+  -fx-stroke-width: 2px;
+}
+
+.chart-line-symbol {
+  -fx-background-color: null;
+  -fx-background-insets: 0;
+  -fx-padding: 0;
+}

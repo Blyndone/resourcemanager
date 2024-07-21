@@ -14,6 +14,8 @@ import javafx.scene.Scene;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
@@ -445,4 +447,39 @@ public class App extends Application {
         infoLabelUI.setGraphic(textFlow);
     }
 
+    @FXML
+    private void closeApp() {
+        Platform.exit();
+    }
+
+    @FXML
+    private void saveLog() {
+        // logMonitor.saveLog();
+        System.out.println("Save Log");
+    }
+
+    @FXML
+    private void showAbout() {
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setTitle("About");
+        alert.setHeaderText(null);
+        TextFlow textFlow = new TextFlow();
+
+        Text txt1 = new Text("Project: \n");
+        txt1.setStyle("-fx-font-weight: bold");
+        Text txt2 = new Text("\tResource Monitor\n\n");
+
+        Text txt3 = new Text("Version:\n");
+        txt3.setStyle("-fx-font-weight: bold");
+        Text txt4 = new Text("\t1.0\n\n");
+
+        Text txt5 = new Text("Developed By:\n");
+        txt5.setStyle("-fx-font-weight: bold");
+        Text txt6 = new Text("\tRichard Duel\n\tAndrew O'Berry\n\tAna Braier");
+
+        textFlow.getChildren().addAll(txt1, txt2, txt3, txt4, txt5, txt6);
+
+        alert.setGraphic(textFlow);
+        alert.showAndWait();
+    }
 }

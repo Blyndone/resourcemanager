@@ -1,0 +1,10 @@
+osproject\hardware\RamMonitor.class
+osproject\hardware\HardwareMonitor.class
+osproject\DoubleObserver.class
+osproject\hardware\CpuMonitor.class
+osproject\hardware\NetworkMonitor.class
+osproject\logging\LogMonitor.class
+osproject\StringObserver.class
+osproject\App.class
+osproject\hardware\ProcessMonitor.class
+osproject\hardware\DiskMonitor.class
