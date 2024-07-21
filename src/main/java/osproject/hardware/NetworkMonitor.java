@@ -1,6 +1,7 @@
 package osproject.hardware;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import oshi.SystemInfo;
@@ -51,6 +52,7 @@ public class NetworkMonitor implements HardwareMonitor {
                     long totalBytes = sentDiff + recvDiff;
                     long speed = net.getSpeed();
                     percent = ((double) totalBytes * 8 / speed) * 100;
+                    maxPercent = Math.max((Collections.max(networkLog) + 10), 100);
                 }).start();
 
                 net.updateAttributes();
