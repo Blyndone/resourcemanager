@@ -11,9 +11,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
@@ -21,6 +23,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
@@ -44,7 +47,7 @@ public class App extends Application {
     private double tickInterval = .5;
     // private static XYChart.Series<Number, Number> series = new
     // XYChart.Series<Number, Number>();
-    private static LineChart<Number, Number> currentChart = new LineChart<>(new NumberAxis(),
+    private static AreaChart<Number, Number> currentChart = new AreaChart<>(new NumberAxis(),
             new NumberAxis());
     private static HardwareMonitor hardwareMonitor;
 
@@ -206,7 +209,7 @@ public class App extends Application {
     }
 
     private void initializeChart() {
-        currentChart = (LineChart<Number, Number>) scene.lookup("#graph");
+        currentChart = (AreaChart<Number, Number>) scene.lookup("#graph");
 
         // currentChart.setTitle("CPU Usage");
         currentChart.getXAxis().setAutoRanging(false);
@@ -227,8 +230,9 @@ public class App extends Application {
         // yAxis.setLabel("Percent Usage");
         currentChart.setLegendVisible(false);
         xAxis.setTickLabelsVisible(false);
-
+        currentChart.setTitle("Cpu Usage");
         updateChart();
+
     }
 
     private void startMonitor() {
@@ -309,10 +313,56 @@ public class App extends Application {
         yAxis.setUpperBound((int) hardwareMonitor.getMaxPercent());
         NumberAxis xAxis = (NumberAxis) currentChart
                 .getXAxis();
-        xAxis.setUpperBound(Math.max(hwLog.size(), 12));
+        xAxis.setUpperBound(Math.max(hwLog.size() - 1, 11));
         series.setName("");
         currentChart.getData().setAll(series);
 
+        setChartColor(hardwareMonitor.getChartColor());
+
+    }
+
+    private static void setChartColor(String colorHex) {
+        // Convert hex color to Color object
+        Color color = Color.web(colorHex);
+
+        // Make the color lighter by increasing the brightness
+        Color lighterColor = color.deriveColor(0, .4, 1, .2); // Increase brightness by 20%
+
+        // Convert the lighter color back to hex string
+        String fillColor = String.format("#%02X%02X%02X",
+                (int) (lighterColor.getRed() * 255),
+                (int) (lighterColor.getGreen() * 255),
+                (int) (lighterColor.getBlue() * 255));
+
+        // Check if the chart has data
+        if (currentChart.getData().isEmpty()) {
+            System.out.println("No data in the chart.");
+            return;
+        }
+
+        // Get the nodes for the series
+        XYChart.Series<Number, Number> series = currentChart.getData().get(0);
+        if (series == null || series.getNode() == null) {
+            System.out.println("Series or series node is null.");
+            return;
+        }
+
+        Node node = series.getNode();
+        Node xfill = node.lookup(".chart-series-area-fill"); // only for AreaChart
+        Node xline = node.lookup(".chart-series-area-line");
+
+        // Apply the styles
+        if (xfill != null) {
+            xfill.setStyle("-fx-fill: " + fillColor + ";");
+        } else {
+            System.out.println("xfill node is null.");
+        }
+
+        if (xline != null) {
+            xline.setStyle("-fx-stroke: #" + colorHex + ";");
+        } else {
+            System.out.println("xline node is null.");
+        }
     }
 
     @FXML

@@ -21,6 +21,7 @@ public class RamMonitor implements HardwareMonitor {
     static double percent = 0;
     double maxPercent = 100;
     int logSize = 30;
+    String chartColor = "5be24e";
 
     private static String formatBytes(long bytes) {
         int unit = 1024;
@@ -77,5 +78,14 @@ public class RamMonitor implements HardwareMonitor {
 
     public double getMaxPercent() {
         return maxPercent;
+    }
+
+    public String getChartColor() {
+        return chartColor;
+
+    }
+
+    public void setChartColor(String color) {
+        this.chartColor = color;
     }
 }

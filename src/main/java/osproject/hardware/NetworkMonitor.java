@@ -22,6 +22,7 @@ public class NetworkMonitor implements HardwareMonitor {
     static double percent = 0;
     double maxPercent = 100;
     int logSize = 30;
+    String chartColor = "00bfff";
 
     @Override
     public Double getLoadPercent() {
@@ -98,6 +99,15 @@ public class NetworkMonitor implements HardwareMonitor {
 
     public double getMaxPercent() {
         return maxPercent;
+    }
+
+    public String getChartColor() {
+        return chartColor;
+
+    }
+
+    public void setChartColor(String color) {
+        this.chartColor = color;
     }
 
 }

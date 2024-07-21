@@ -104,12 +104,17 @@
   -fx-border-color: grey;
 }
 
-.chart-series-line {
+.chart-series-area-line {
   -fx-stroke-width: 2px;
+  -fx-stroke: #5be24e;
 }
 
-.chart-line-symbol {
+.chart-area-symbol {
   -fx-background-color: null;
   -fx-background-insets: 0;
   -fx-padding: 0;
+}
+
+.chart-series-area-fill {
+  -fx-fill: #00ff15;
 }

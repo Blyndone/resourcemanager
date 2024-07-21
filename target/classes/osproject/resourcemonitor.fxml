@@ -33,7 +33,7 @@
 -->
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.chart.LineChart?>
+<?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
@@ -163,20 +163,14 @@
                                                       <Font name="Arial Bold" size="30.0" />
                                                    </font>
                                                 </Label>
-                                                <LineChart fx:id="graph" layoutX="210.0" layoutY="101.0" prefHeight="350.0" prefWidth="373.0">
+                                                <AreaChart fx:id="graph" layoutX="202.0" layoutY="123.0" prefHeight="365.0" prefWidth="373.0">
                                                   <xAxis>
-                                                    <NumberAxis side="BOTTOM" style="-fx-text-fill: red; -fx-text-size: 8;" tickLabelFill="WHITE">
-                                                         <tickLabelFont>
-                                                            <Font size="10.0" />
-                                                         </tickLabelFont></NumberAxis>
+                                                    <NumberAxis side="BOTTOM" />
                                                   </xAxis>
                                                   <yAxis>
-                                                    <NumberAxis side="LEFT" tickLabelFill="WHITE">
-                                                         <tickLabelFont>
-                                                            <Font size="10.0" />
-                                                         </tickLabelFont></NumberAxis>
+                                                    <NumberAxis side="LEFT" />
                                                   </yAxis>
-                                                </LineChart>
+                                                </AreaChart>
                                              </children>
                                           </AnchorPane>
                                           <VBox prefWidth="640.0">

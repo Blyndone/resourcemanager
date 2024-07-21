@@ -27,6 +27,7 @@ public class DiskMonitor implements HardwareMonitor {
     private double percent = 0;
     double maxPercent = 100;
     int logSize = 30;
+    String chartColor = "ba55d3";
 
     public DiskMonitor() {
         disks = getDisks();
@@ -141,4 +142,14 @@ public class DiskMonitor implements HardwareMonitor {
     public double getMaxPercent() {
         return maxPercent;
     }
+
+    public String getChartColor() {
+        return chartColor;
+
+    }
+
+    public void setChartColor(String color) {
+        this.chartColor = color;
+    }
+
 }

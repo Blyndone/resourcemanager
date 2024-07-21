@@ -23,6 +23,7 @@ public class CpuMonitor implements HardwareMonitor {
     static int delay = 1000;
     double maxPercent = 100;
     int logSize = 30;
+    String chartColor = "ff4500";
 
     @Override
     public Double getLoadPercent() {
@@ -67,4 +68,12 @@ public class CpuMonitor implements HardwareMonitor {
         return maxPercent;
     }
 
+    public String getChartColor() {
+        return chartColor;
+
+    }
+
+    public void setChartColor(String color) {
+        this.chartColor = color;
+    }
 }

@@ -16,4 +16,6 @@ public interface HardwareMonitor {
 
     double getMaxPercent();
 
+    String getChartColor();
+
 }
