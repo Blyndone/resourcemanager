@@ -19,6 +19,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.control.ScrollBar;
 import javafx.scene.control.TextArea;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -173,6 +174,8 @@ public class App extends Application {
         logTextArea.setWrapText(true);
         logMonitor.setObserver(logObserver);
         logTextArea.textProperty().bind(logObserver.valueProperty());
+        ScrollBar scrollBarv = (ScrollBar) logTextArea.lookup(".scroll-bar:vertical");
+        scrollBarv.setDisable(true);
 
         logTextArea.textProperty().addListener((observable, oldValue, newValue) -> {
             logTextArea.positionCaret(logTextArea.getText().length());
@@ -278,7 +281,7 @@ public class App extends Application {
         // double diskPer = diskMonitor.getLoadPercent();
         double diskPer = 0;
         for (DiskMonitor diskMonitor : diskMonitors) {
-            diskMonitor.getLoadPercent();
+            diskPer += diskMonitor.getLoadPercent();
 
         }
         double netPer = networkMonitor.getLoadPercent();
@@ -288,7 +291,7 @@ public class App extends Application {
         String diskStr = String.format("%.2f%%", diskPer);
         String netStr = String.format("%.2f%%", netPer);
 
-        logMonitor.log("CPU: " + cpuStr + "RAM: " + ramStr + "Disk: " + diskStr + "Network: " + netStr);
+        logMonitor.log("CPU: " + cpuStr + " | RAM: " + ramStr + " | Disk: " + diskStr + " | Network: " + netStr);
         processMonitor.updateProcesses();
         updateProcessLabel(currentProcessId);
 
@@ -504,8 +507,11 @@ public class App extends Application {
 
     @FXML
     private void saveLog() {
-        // logMonitor.saveLog();
-        System.out.println("Save Log");
+        try {
+            logMonitor.saveLog();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @FXML

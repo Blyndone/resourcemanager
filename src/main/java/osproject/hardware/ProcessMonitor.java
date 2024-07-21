@@ -26,7 +26,7 @@ public class ProcessMonitor {
     private static ArrayList<String> processLog = new ArrayList<>();
     private static ArrayList<OSProcess> currentProcesses = new ArrayList<>();
     private static ArrayList<StringObserver> observers = new ArrayList<>(10);
-    private int processCount = 20;
+    private int processCount = 21;
 
     public ProcessMonitor() {
         getProcessList(processCount);

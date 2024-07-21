@@ -1,5 +1,5 @@
 .root {
-  background-color: #ff0000;
+  -fx-background-color: #a7a7a7;
   -fx-font-family: "Arial";
   font-family: "Arial";
   -fx-font-size: 14px;
@@ -97,13 +97,31 @@
 }
 
 .logPane {
+  -fx-background-color: grey;
+  -fx-border-color: black;
 }
 .logTitle {
+  -fx-font-family: "Arial";
+  font-family: "Arial";
+  -fx-text-fill: rgb(36, 35, 35);
+  -fx-font-size: 20px;
+  -fx-font-weight: bold;
 }
 .logLabel {
   -fx-border-color: grey;
+  -fx-font-family: "Arial";
+  font-family: "Arial";
+  -fx-text-fill: rgb(36, 35, 35);
+  -fx-font-size: 13px;
 }
-
+.text-area .scroll-pane .scroll-bar:vertical,
+.text-area .scroll-pane .scroll-bar:horizontal {
+  -fx-hbar-policy: never;
+  -fx-vbar-policy: never;
+  -fx-opacity: 0;
+  -fx-pref-width: 0;
+  -fx-pref-height: 0;
+}
 .chart-series-area-line {
   -fx-stroke-width: 2px;
   -fx-stroke: #5be24e;
@@ -117,4 +135,23 @@
 
 .chart-series-area-fill {
   -fx-fill: #00ff15;
+}
+
+.dark-theme-button {
+  -fx-background-color: #505050; /* Dark background */
+  -fx-text-fill: #ffffff; /* Light text */
+  -fx-font-size: 14px; /* Font size */
+  -fx-padding: 5px 10px; /* Padding */
+  -fx-border-radius: 5px; /* Rounded corners */
+  -fx-background-radius: 5px; /* Rounded background */
+  -fx-border-color: #202020; /* Border color */
+  -fx-border-width: 1px; /* Border width */
+}
+
+.dark-theme-button:hover {
+  -fx-background-color: #444444; /* Slightly lighter background on hover */
+}
+
+.dark-theme-button:pressed {
+  -fx-background-color: #222222; /* Darker background when pressed */
 }

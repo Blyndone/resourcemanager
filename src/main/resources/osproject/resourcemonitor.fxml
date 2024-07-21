@@ -35,6 +35,7 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.AreaChart?>
 <?import javafx.scene.chart.NumberAxis?>
+<?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -54,9 +55,9 @@
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
-            <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Save" />
+            <MenuItem mnemonicParsing="false" onAction="#saveLog" text="Save Log" />
             <SeparatorMenuItem mnemonicParsing="false" />
-            <MenuItem mnemonicParsing="false" text="Quit" />
+            <MenuItem mnemonicParsing="false" onAction="#closeApp" text="Quit" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">
@@ -152,18 +153,18 @@
                                        <items>
                                           <AnchorPane styleClass="chartPane">
                                              <children>
-                                                <Label fx:id="targetLabel1" alignment="BOTTOM_CENTER" layoutX="7.0" layoutY="47.0" prefHeight="24.0" prefWidth="98.0" styleClass="processTitle" text="Processes" textAlignment="CENTER">
+                                                <Label fx:id="targetLabel1" alignment="BOTTOM_CENTER" layoutX="7.0" layoutY="13.0" prefHeight="24.0" prefWidth="98.0" styleClass="processTitle" text="Processes" textAlignment="CENTER">
                                                    <font>
                                                       <Font name="Arial Bold" size="18.0" />
                                                    </font>
                                                 </Label>
-                                                <VBox fx:id="processPane" layoutX="6.0" layoutY="74.0" prefHeight="447.0" prefWidth="183.0" styleClass="processPane" />
-                                                <Label fx:id="targetLabel" alignment="BOTTOM_LEFT" layoutX="219.0" layoutY="62.0" prefHeight="30.0" prefWidth="356.0" styleClass="chartTitle" text="Current Target" textAlignment="CENTER">
+                                                <VBox fx:id="processPane" layoutX="6.0" layoutY="40.0" prefHeight="447.0" prefWidth="183.0" styleClass="processPane" />
+                                                <Label fx:id="targetLabel" alignment="BOTTOM_LEFT" layoutX="219.0" layoutY="28.0" prefHeight="30.0" prefWidth="356.0" styleClass="chartTitle" text="Current Target" textAlignment="CENTER">
                                                    <font>
                                                       <Font name="Arial Bold" size="30.0" />
                                                    </font>
                                                 </Label>
-                                                <AreaChart fx:id="graph" layoutX="202.0" layoutY="123.0" prefHeight="365.0" prefWidth="373.0">
+                                                <AreaChart fx:id="graph" layoutX="202.0" layoutY="89.0" prefHeight="365.0" prefWidth="373.0">
                                                   <xAxis>
                                                     <NumberAxis side="BOTTOM" />
                                                   </xAxis>
@@ -193,7 +194,7 @@
                                                       </AnchorPane>
                                                     <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="194.0" prefWidth="581.0" styleClass="logPane">
                                                          <children>
-                                                            <Label alignment="TOP_LEFT" layoutX="4.0" prefHeight="51.0" prefWidth="260.0" styleClass="logTitle" text="Log">
+                                                            <Label alignment="TOP_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="58.0" styleClass="logTitle" text="Log">
                                                                <font>
                                                                   <Font size="26.0" />
                                                                </font>
@@ -202,6 +203,7 @@
                                                                <font>
                                                                   <Font name="Arial" size="12.0" />
                                                                </font></TextArea>
+                                                            <Button layoutX="458.0" layoutY="13.0" mnemonicParsing="false" onAction="#saveLog" prefWidth="102.0" styleClass="dark-theme-button" text="Save Log" />
                                                          </children>
                                                       </AnchorPane>
                                                    </items>
