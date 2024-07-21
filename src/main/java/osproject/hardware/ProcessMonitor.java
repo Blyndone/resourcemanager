@@ -45,8 +45,18 @@ public class ProcessMonitor {
 
         for (OSProcess osProcess : largestProcesses) {
             currentProcesses.add(osProcess);
-            String processInfo = osProcess.getProcessID() + " " + osProcess.getName() + " "
-                    + formatSize(osProcess.getResidentSetSize());
+            int totalLength = 28; // Set the total length of the formatted string
+            String pName = osProcess.getName();
+            if (pName.length() > 18) {
+                pName = pName.substring(0, 15) + "...";
+            }
+            String pSize = formatSize(osProcess.getResidentSetSize());
+
+            int paddingLength = totalLength - pName.length() - pSize.length();
+            int paddingLeft = paddingLength / 2;
+            int paddingRight = paddingLength - paddingLeft;
+
+            String processInfo = String.format("%s%" + paddingLeft + "s%" + paddingRight + "s%s", pName, "", "", pSize);
 
             processLog.add(processInfo);
 
@@ -98,8 +108,8 @@ public class ProcessMonitor {
 
     public Map<String, Object> getDetailProcessInfo(OSProcess process) {
         Map<String, Object> processDetails = new HashMap<String, Object>();
-        processDetails.put("Process ID", process.getProcessID());
         processDetails.put("Name", process.getName());
+        processDetails.put("Process ID", process.getProcessID());
         processDetails.put("Memory", formatSize(process.getResidentSetSize()));
         processDetails.put("Priority", process.getPriority());
         processDetails.put("Uptime", process.getUpTime());
@@ -111,7 +121,7 @@ public class ProcessMonitor {
     }
 
     public String getBasicProcessInfo(OSProcess process) {
-        return process.getProcessID() + " " + process.getName() + " " + formatSize(process.getResidentSetSize());
+        return process.getName() + " " + process.getProcessID() + " " + formatSize(process.getResidentSetSize());
     }
 
     public void setObservers(ArrayList<StringObserver> observers) {
@@ -124,6 +134,8 @@ public class ProcessMonitor {
         for (int i = 0; i < observers.size(); i++) {
             observers.get(i).setValue(processLog.get(i));
             Label targetLabelUI = (Label) scene.lookup("process_" + i);
+
+            // targetLabelUI.getStyleClass().add("processLabel-selected");
             // targetLabelUI.textProperty().bind(observers.get(i).valueProperty());
         }
 
@@ -135,5 +147,9 @@ public class ProcessMonitor {
 
     public void setScene(Scene scene) {
         this.scene = scene;
+    }
+
+    public int getProcessIndex(int processID) {
+        return currentProcesses.indexOf(getProcessByID(processID));
     }
 }

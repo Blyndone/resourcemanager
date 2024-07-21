@@ -68,10 +68,21 @@
   -fx-font-weight: bold;
 }
 .processLabel {
-  -fx-font-family: "Arial";
-  font-family: "Arial";
+  -fx-font-family: "Courier New", Courier, monospace;
   -fx-text-fill: rgb(36, 35, 35);
-  -fx-font-size: 10px;
+  -fx-font-size: 13px;
+  -fx-background-color: linear-gradient(
+    to bottom,
+    rgb(230, 230, 230),
+    rgb(200, 200, 200)
+  );
+}
+.processLabel-selected {
+  -fx-background-color: linear-gradient(
+    to bottom,
+    rgb(194, 191, 191),
+    rgb(145, 143, 143)
+  );
 }
 
 .infoPane {

@@ -159,6 +159,7 @@ public class App extends Application {
             Label label = new Label(processMonitor.getBasicProcessInfo(process));
             label.setId("process_" + i);
             label.textProperty().bind(observer.valueProperty());
+            label.getStyleClass().add("processLabel");
             label.onMouseClickedProperty().set(event -> processEntityClick(event));
 
             processPane.getChildren().add(label);
@@ -278,7 +279,6 @@ public class App extends Application {
     private static void tick() {
         double cpuPer = cpuMonitor.getLoadPercent();
         double ramPer = ramMonitor.getLoadPercent();
-        // double diskPer = diskMonitor.getLoadPercent();
         double diskPer = 0;
         for (DiskMonitor diskMonitor : diskMonitors) {
             diskPer += diskMonitor.getLoadPercent();
@@ -373,7 +373,6 @@ public class App extends Application {
 
         Node sourceNode = (Node) event.getSource();
         String sourceId = sourceNode.getId();
-        System.out.println("Source ID: " + sourceId);
 
         switch (sourceId) {
             case "cpuPane":
@@ -440,6 +439,22 @@ public class App extends Application {
         if (procID == 0) {
             return;
         }
+
+        // Reset all process labels
+        VBox processPane = (VBox) scene.lookup("#processPane");
+        for (Node node : processPane.getChildren()) {
+            if (node instanceof Label) {
+                Label label = (Label) node;
+                label.getStyleClass().remove("processLabel-selected");
+            }
+        }
+
+        // Highlight the selected process label
+        int index = processMonitor.getProcessIndex(procID);
+
+        Label sourceNode = (Label) scene.lookup("#process_" + index);
+
+        sourceNode.getStyleClass().add("processLabel-selected");
 
         OSProcess process = processMonitor.getProcessByID(procID);
         Map<String, Object> processDetails = processMonitor.getDetailProcessInfo(process);

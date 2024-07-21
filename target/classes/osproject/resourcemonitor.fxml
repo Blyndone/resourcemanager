@@ -75,9 +75,9 @@
                <items>
                   <VBox prefHeight="570.0" prefWidth="640.0">
                      <children>
-                        <SplitPane dividerPositions="0.2617554858934169" prefHeight="870.0" prefWidth="798.0" styleClass="root">
+                        <SplitPane dividerPositions="0.2022613065326633" prefHeight="870.0" prefWidth="798.0" styleClass="root">
                           <items>
-                              <VBox fx:id="hardwarelist" prefHeight="479.0" prefWidth="164.0">
+                              <VBox fx:id="hardwarelist" prefHeight="868.0" prefWidth="164.0">
                                  <children>
                                     <Pane fx:id="cpuPane" onMouseClicked="#setTarget" opacity="0.75" prefHeight="106.0" prefWidth="165.0" styleClass="sidebarPane">
                                        <opaqueInsets>
@@ -89,7 +89,7 @@
                                                 <Font name="Arial" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="cpuPer" alignment="BOTTOM_CENTER" layoutX="80.0" layoutY="70.0" styleClass="sidebarLabel" text="15%">
+                                          <Label fx:id="cpuPer" alignment="BOTTOM_CENTER" layoutX="56.0" layoutY="66.0" styleClass="sidebarLabel" text="15%">
                                              <font>
                                                 <Font size="24.0" />
                                              </font>
@@ -111,7 +111,7 @@
                                                 <Font size="21.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="ramPer" alignment="BOTTOM_CENTER" layoutX="80.0" layoutY="70.0" styleClass="sidebarLabel" text="15%">
+                                          <Label fx:id="ramPer" alignment="BOTTOM_CENTER" layoutX="56.0" layoutY="66.0" styleClass="sidebarLabel" text="15%">
                                              <font>
                                                 <Font size="24.0" />
                                              </font>
@@ -133,7 +133,7 @@
                                                 <Font size="21.0" />
                                              </font>
                                           </Label>
-                                          <Label fx:id="networkPer" alignment="BOTTOM_CENTER" layoutX="80.0" layoutY="70.0" styleClass="sidebarLabel" text="15%">
+                                          <Label fx:id="networkPer" alignment="BOTTOM_CENTER" layoutX="56.0" layoutY="66.0" styleClass="sidebarLabel" text="15%">
                                              <font>
                                                 <Font size="24.0" />
                                              </font>
@@ -149,22 +149,22 @@
                               </VBox>
                             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="724.0" prefWidth="585.0">
                                  <children>
-                                    <SplitPane dividerPositions="0.616800920598389" orientation="VERTICAL" prefHeight="871.0" prefWidth="585.0">
+                                    <SplitPane dividerPositions="0.616800920598389" orientation="VERTICAL" prefHeight="871.0" prefWidth="631.0">
                                        <items>
-                                          <AnchorPane styleClass="chartPane">
+                                          <AnchorPane prefHeight="529.0" prefWidth="607.0" styleClass="chartPane">
                                              <children>
                                                 <Label fx:id="targetLabel1" alignment="BOTTOM_CENTER" layoutX="7.0" layoutY="13.0" prefHeight="24.0" prefWidth="98.0" styleClass="processTitle" text="Processes" textAlignment="CENTER">
                                                    <font>
                                                       <Font name="Arial Bold" size="18.0" />
                                                    </font>
                                                 </Label>
-                                                <VBox fx:id="processPane" layoutX="6.0" layoutY="40.0" prefHeight="447.0" prefWidth="183.0" styleClass="processPane" />
-                                                <Label fx:id="targetLabel" alignment="BOTTOM_LEFT" layoutX="219.0" layoutY="28.0" prefHeight="30.0" prefWidth="356.0" styleClass="chartTitle" text="Current Target" textAlignment="CENTER">
+                                                <VBox fx:id="processPane" layoutX="6.0" layoutY="40.0" prefHeight="447.0" prefWidth="228.0" styleClass="processPane" />
+                                                <Label fx:id="targetLabel" alignment="BOTTOM_LEFT" layoutX="248.0" layoutY="28.0" prefHeight="30.0" prefWidth="356.0" styleClass="chartTitle" text="Current Target" textAlignment="CENTER">
                                                    <font>
                                                       <Font name="Arial Bold" size="30.0" />
                                                    </font>
                                                 </Label>
-                                                <AreaChart fx:id="graph" layoutX="202.0" layoutY="89.0" prefHeight="365.0" prefWidth="373.0">
+                                                <AreaChart fx:id="graph" layoutX="242.0" layoutY="84.0" prefHeight="365.0" prefWidth="373.0">
                                                   <xAxis>
                                                     <NumberAxis side="BOTTOM" />
                                                   </xAxis>
@@ -185,7 +185,7 @@
                                                                   <Font name="Arial" size="26.0" />
                                                                </font>
                                                             </Label>
-                                                            <Label fx:id="infoLabel" alignment="TOP_LEFT" layoutX="15.0" layoutY="41.0" prefHeight="96.0" prefWidth="551.0" styleClass="infoLabel">
+                                                            <Label fx:id="infoLabel" alignment="TOP_LEFT" layoutX="15.0" layoutY="41.0" prefHeight="96.0" prefWidth="603.0" styleClass="infoLabel">
                                                                <font>
                                                                   <Font size="15.0" />
                                                                </font>
@@ -199,11 +199,11 @@
                                                                   <Font size="26.0" />
                                                                </font>
                                                             </Label>
-                                                            <TextArea fx:id="logLabel" layoutX="4.0" layoutY="51.0" prefHeight="116.0" prefWidth="571.0" styleClass="logLabel">
+                                                            <TextArea fx:id="logLabel" layoutX="4.0" layoutY="51.0" prefHeight="116.0" prefWidth="612.0" styleClass="logLabel">
                                                                <font>
                                                                   <Font name="Arial" size="12.0" />
                                                                </font></TextArea>
-                                                            <Button layoutX="458.0" layoutY="13.0" mnemonicParsing="false" onAction="#saveLog" prefWidth="102.0" styleClass="dark-theme-button" text="Save Log" />
+                                                            <Button layoutX="511.0" layoutY="13.0" mnemonicParsing="false" onAction="#saveLog" prefWidth="102.0" styleClass="dark-theme-button" text="Save Log" />
                                                          </children>
                                                       </AnchorPane>
                                                    </items>

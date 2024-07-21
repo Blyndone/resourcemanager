@@ -16,7 +16,7 @@
                                                 <Font name="Arial Bold" size="21.0" />
                                              </font>
                                           </Label>
-                                          <Label alignment="BOTTOM_CENTER" layoutX="80.0" layoutY="70.0" styleClass="sidebarLabel" text="15%">
+                                          <Label alignment="BOTTOM_CENTER" layoutX="56.0" layoutY="66.0" styleClass="sidebarLabel" text="15%">
                                              <font>
                                                 <Font name="Arial" size="24.0" />
                                              </font>
